@@ -1,6 +1,7 @@
 # main.py
 import pygame
-from busquedas import amplitud, utilidades # profundidad
+import sys
+from busquedas import amplitud, utilidades, profundidad
 from modelos import UIElement
 from pygame.sprite import Sprite
 
@@ -178,12 +179,12 @@ def main():
     buttons = [
         {
             "ui": UIElement((150, 150), "Amplitud", 25, (40, 44, 52), (255, 255, 255)),
-            "algo": amplitud.buscar # <--- Llama al archivo amplitud y su función buscar
+            "algo": amplitud.buscar # Llama al archivo amplitud y su función buscar
         },
-        #{
-        #    "ui": UIElement((150, 220), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
-         #   "algo": algoritmos.preferred_search_depth
-        #}
+        {
+            "ui": UIElement((150, 220), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
+            "algo": profundidad.buscar # Llama al archivo profundidad y su función buscar
+        }
     ]
 
     estado_actual = "MENU"
@@ -226,7 +227,7 @@ def main():
         screen.fill((30, 30, 30)) 
 
         # Dibujar Panel Lateral
-        draw_text(screen, "Algoritmos", (panel_center_x, 50), 30)
+        draw_text(screen, "No Informada", (panel_center_x, 50), 30)
         for btn in buttons:
             btn["ui"].update(mouse_pos)
             btn["ui"].draw(screen)
@@ -236,7 +237,7 @@ def main():
         
         elif estado_actual == "SIMULACION":
             move_timer += dt
-            if path and path_index < len(path) and move_timer > 300:
+            if path and path_index < len(path) and move_timer > 10: # Velocidad de Ejecución
                 direction = path[path_index]
                 if direction == 'Up': current_taxi_pos[0] -= 1
                 elif direction == 'Down': current_taxi_pos[0] += 1
