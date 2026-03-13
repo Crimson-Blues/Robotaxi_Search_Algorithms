@@ -1,10 +1,8 @@
 # main.py
 import pygame
-import sys
-# IMPORTAMOS NUESTROS MÓDULOS
-import algoritmos
+from busquedas import amplitud, utilidades # profundidad
+from modelos import UIElement
 from pygame.sprite import Sprite
-from modelos import UIElement, Taxi 
 
 # ... (Funciones de dibujo draw_world, etc.)
 def draw_world(screen, matrix, taxi_pos, offset_x=0):
@@ -163,7 +161,7 @@ def main():
     # ... (Configuración inicial)
     pygame.init()
     file_path = 'Prueba1.txt'
-    map_matrix_original = algoritmos.read_world(file_path)
+    map_matrix_original = utilidades.read_world(file_path) # Usas la utilidad
     if not map_matrix_original: return
 
     # Usamos una copia para trabajar
@@ -176,19 +174,18 @@ def main():
     
     panel_center_x = 150 
 
-    # Ahora los botones se referencian a través del módulo algoritmos
+    # Ahora los botones se referencian
     buttons = [
         {
             "ui": UIElement((150, 150), "Amplitud", 25, (40, 44, 52), (255, 255, 255)),
-            "algo": algoritmos.preferred_search_amplitude # <--- Nota el prefijo
+            "algo": amplitud.buscar # <--- Llama al archivo amplitud y su función buscar
         },
-        {
-            "ui": UIElement((150, 220), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
-            "algo": algoritmos.preferred_search_depth
-        }
+        #{
+        #    "ui": UIElement((150, 220), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
+         #   "algo": algoritmos.preferred_search_depth
+        #}
     ]
 
-    # ... (Resto del bucle de Pygame)
     estado_actual = "MENU"
     current_taxi_pos = [0, 0]
     path, path_index, move_timer = [], 0, 0
@@ -221,7 +218,7 @@ def main():
                         path, expanded, depth, cost, calc_time = res
                         datos_finales = {'exp': expanded, 'dep': depth, 'cost': cost, 'time': calc_time}
                         
-                        start_pos, _, _ = algoritmos.find_positions(map_matrix)
+                        start_pos, _, _ = utilidades.find_positions(map_matrix)
                         current_taxi_pos = list(start_pos)
                         map_matrix[start_pos[0]][start_pos[1]] = 0 
                         estado_actual = "SIMULACION"
