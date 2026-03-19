@@ -1,13 +1,5 @@
-#Importations
-from collections import namedtuple
-import time
-import sys, os
-import numpy as np
-import pygame
-import pygame.freetype
+# modelos.py
 from pygame.sprite import Sprite
-from pygame.rect import Rect
-from enum import Enum
 
 class Taxi:
     def __init__(self, x_pos=0, y_pos=0):
@@ -42,28 +34,19 @@ class Board:
 
 
 class Node:
-    def __init__(self, state = [], p = None, rator = None, depth = 0):
+    def __init__(self, state = [], p = None, rator = None, depth = 0, cost = 0):
         self.state = state
         self.p = p
         self.rator = rator
         self.depth = depth
         self.children = []
+        self.cost = cost
 
 
 
 class Search_Tree:
     def __init__(self, root = Node()):
         self.root = root
-
-
-#Helper graphing functions
-
-def create_surface_with_text(text, font_size, text_rgb, bg_rgb):
-    """ Returns surface with text written on """
-    font = pygame.freetype.SysFont("Courier", font_size, bold=True)
-    surface, _ = font.render(text=text, fgcolor=text_rgb, bgcolor=bg_rgb)
-    return surface.convert_alpha()
-
 
 class UIElement(Sprite):
     """ An user interface element that can be added to a surface """
@@ -117,39 +100,3 @@ class UIElement(Sprite):
     def draw(self, surface):
         """ Draws element onto a surface """
         surface.blit(self.image, self.rect)
-
-#Frontend loop:
-def main():
-    #Color definitions:
-    BLUE = (106, 159, 181)
-    WHITE = (255, 255, 255)
-
-    pygame.init()
-
-    screen = pygame.display.set_mode((800, 600))
-
-    # create a ui element
-    uielement = UIElement(
-        center_position=(400, 400),
-        font_size=30,
-        bg_rgb=BLUE,
-        text_rgb=WHITE,
-        text="Hello World",
-    )
-
-    # main loop
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT: 
-                pygame.quit()
-                return 
-        screen.fill(BLUE)
-
-        uielement.update(pygame.mouse.get_pos())
-        uielement.draw(screen)
-        pygame.display.flip()
-
-
-#Run main function
-if __name__ == "__main__":
-    main()
