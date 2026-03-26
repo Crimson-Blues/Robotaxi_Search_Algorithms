@@ -14,7 +14,6 @@ def read_world(file_path):
     except FileNotFoundError:
         print(f"Error: No se encontró el archivo en la ruta {file_path}")
         return None
-pass
     
 def find_positions(map_matrix):
     start = None
@@ -29,13 +28,12 @@ def find_positions(map_matrix):
             elif map_matrix[row][col] == 4:
                 passengers.add((row, col))
     return start, destination, frozenset(passengers)
-pass
 
-def is_goal(state, destination):
-    current_position = state[0]
-    remaining_passengers = state[1]
+
+def is_goal(node, destination):
+    current_position, remaining_passengers =  node.state
     return current_position == destination and len(remaining_passengers) == 0
-pass
+
 
 def expand(current_node, world_matrix):
     children = []
@@ -67,10 +65,11 @@ def expand(current_node, world_matrix):
                     depth=current_node.depth + 1,
                     cost=new_cost
                 )
-                children.append(new_node)
+                if not is_cycle(new_node):
+                    children.append(new_node)
                 
     return children
-pass
+
 
 def reconstruct_path(goal_node):
     path = []
@@ -78,6 +77,17 @@ def reconstruct_path(goal_node):
     while current_node.p is not None:
         path.append(current_node.rator)
         current_node = current_node.p
+
     path.reverse()
+
     return path
-pass
+
+def is_cycle(checked_node):
+    current_node = checked_node.p
+    check_state = checked_node.state
+    while current_node.p is not None:
+        if current_node.state == check_state:
+            return True
+        current_node = current_node.p
+    return False
+

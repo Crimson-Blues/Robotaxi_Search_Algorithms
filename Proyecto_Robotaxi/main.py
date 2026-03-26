@@ -7,7 +7,7 @@ from pygame.sprite import Sprite
 
 # ... (Funciones de dibujo draw_world, etc.)
 def draw_world(screen, matrix, taxi_pos, offset_x=0):
-    # Definición de tus colores modificados
+    # Definición de colores modificados
     COLORS = {
         0: (255, 255, 255),  # Blanco: Calle libre
         1: (112, 128, 144),  # Gris: Obstáculo/Muro

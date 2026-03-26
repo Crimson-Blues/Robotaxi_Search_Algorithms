@@ -11,7 +11,7 @@ def buscar(world_matrix):
 
     root_node = Node(state=initial_state)
 
-    # 2. Usamos una lista o deque como PILA (LIFO)
+    # 2. Usamos una lista o dequeue como PILA (LIFO)
     stack = deque([root_node])
     
     # El conjunto de visitados es crucial en DFS para evitar bucles infinitos
@@ -28,7 +28,7 @@ def buscar(world_matrix):
         expanded_nodes += 1
 
         # 4. Verificación de meta
-        if is_goal(current_node.state, destination):
+        if is_goal(current_node, destination):
             time_elapsed = time.time() - start_time
             path = reconstruct_path(current_node)
             return path, expanded_nodes, current_node.depth, current_node.cost, time_elapsed
