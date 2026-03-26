@@ -7,7 +7,7 @@ from busquedas.utilidades import find_positions, expand, is_goal, reconstruct_pa
 def buscar(world_matrix):
     start_time = time.time()
 
-    # 🔍 Obtener posiciones
+    # Obtener posiciones
     start, destination, passengers = find_positions(world_matrix)
 
     # Estado inicial
@@ -39,8 +39,8 @@ def buscar(world_matrix):
         visited.add(current_node.state)
         expanded_nodes += 1
 
-        # 🎯 Verificar objetivo
-        if is_goal(current_node.state, destination):
+        # Verificar objetivo
+        if is_goal(current_node, destination):
             end_time = time.time()
 
             path = reconstruct_path(current_node)
@@ -49,7 +49,7 @@ def buscar(world_matrix):
 
             return path, expanded_nodes, depth, total_cost, (end_time - start_time)
 
-        # 🔁 Expandir
+        # Expandir
         children = expand(current_node, world_matrix)
 
         for child in children:
@@ -59,6 +59,6 @@ def buscar(world_matrix):
                 best_cost[state] = child.cost
                 heapq.heappush(frontier, (child.cost, id(child), child))
 
-    # ❌ No hay solución
+    # No hay solución
     end_time = time.time()
     return None, expanded_nodes, 0, 0, (end_time - start_time)

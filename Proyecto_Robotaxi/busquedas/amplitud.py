@@ -24,7 +24,7 @@ def buscar(world_matrix):
         # Count as expanded when checking if it is the goal
         expanded_nodes += 1
 
-        if is_goal(current_node.state, destination):
+        if is_goal(current_node, destination):
             time_elapsed = time.time() - start_time
             path = reconstruct_path(current_node)
             return path, expanded_nodes, current_node.depth, current_node.cost, time_elapsed
@@ -39,4 +39,5 @@ def buscar(world_matrix):
                 queue.append(child)
 
     # If the queue empties without finding the goal
-    return path, expanded_nodes, depth, cost, time_elapsed
+    time_elapsed = time.time() - start_time
+    return reconstruct_path(current_node), expanded_nodes, current_node.depth, current_node.cost, time_elapsed
