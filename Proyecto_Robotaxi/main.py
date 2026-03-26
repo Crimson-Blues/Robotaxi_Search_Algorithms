@@ -1,7 +1,7 @@
 # main.py
 import pygame
 import sys
-from busquedas import amplitud, utilidades, profundidad
+from busquedas import amplitud, utilidades, profundidad, ucs
 from modelos import UIElement
 from pygame.sprite import Sprite
 
@@ -184,6 +184,10 @@ def main():
         {
             "ui": UIElement((150, 220), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
             "algo": profundidad.buscar # Llama al archivo profundidad y su función buscar
+        },
+        {
+            "ui": UIElement((150, 290), "Costo Uniforme", 25, (40, 44, 52), (255, 255, 255)),
+            "algo": ucs.buscar
         }
     ]
 
