@@ -1,7 +1,7 @@
 # main.py
 import pygame
 import sys
-from busquedas import amplitud, utilidades, profundidad, ucs
+from busquedas import amplitud, utilidades, profundidad, ucs, a_estrella
 from modelos import UIElement
 from pygame.sprite import Sprite
 
@@ -179,15 +179,19 @@ def main():
     buttons = [
         {
             "ui": UIElement((150, 150), "Amplitud", 25, (40, 44, 52), (255, 255, 255)),
-            "algo": amplitud.buscar # Llama al archivo amplitud y su función buscar
+            "algo": amplitud.buscar # Calls on the amplitude search algorithm
         },
         {
             "ui": UIElement((150, 220), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
-            "algo": profundidad.buscar # Llama al archivo profundidad y su función buscar
+            "algo": profundidad.buscar # Calls on the depth search algorithm
         },
         {
             "ui": UIElement((150, 290), "Costo Uniforme", 25, (40, 44, 52), (255, 255, 255)),
-            "algo": ucs.buscar
+            "algo": ucs.buscar # Calls on the cost search algorithm
+        },
+        {
+            "ui": UIElement((150, 360), "A Estrella", 25, (40, 44, 52), (255, 255, 255)),
+            "algo": a_estrella.buscar # Calls on the A* search algorithm
         }
     ]
 
@@ -280,3 +284,4 @@ if __name__ == "__main__":
         else:
             print("\nNo se encontró una solución")
             print("Nodos expandidos: ", expanded_nodes)
+            print("Tiempo de cómputo: ", calc_time, "segundos")

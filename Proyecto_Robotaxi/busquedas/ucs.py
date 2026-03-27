@@ -1,3 +1,4 @@
+# busquedas/ucs.py
 import heapq
 import time
 from modelos import Node
@@ -5,7 +6,6 @@ from busquedas.utilidades import find_positions, expand, is_goal, reconstruct_pa
 
 
 def buscar(world_matrix):
-    start_time = time.time()
 
     # Obtener posiciones
     start, destination, passengers = find_positions(world_matrix)
@@ -30,6 +30,7 @@ def buscar(world_matrix):
 
     expanded_nodes = 0
 
+    start_time = time.time()
     while frontier:
         current_cost, _, current_node = heapq.heappop(frontier)
 

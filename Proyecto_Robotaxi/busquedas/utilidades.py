@@ -91,3 +91,8 @@ def is_cycle(checked_node):
         current_node = current_node.p
     return False
 
+#Finds the Manhattan distance given two duples representing coordinates in board
+def manhattan_dist(loc1, loc2):
+    return abs(loc1[0] -  loc2[0]) + abs(loc1[1] - loc2[1])
+
+

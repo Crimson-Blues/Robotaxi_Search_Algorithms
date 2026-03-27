@@ -7,12 +7,16 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\busquedas\\a_estrella.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\utilidades.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\busquedas\\utilidades.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\amplitud.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\busquedas\\amplitud.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\ucs.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\busquedas\\ucs.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\profundidad.py||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -23,8 +27,16 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\modelos.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\ucs.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\busquedas\\ucs.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\busquedas\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\amplitud.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Proyecto_Robotaxi\\busquedas\\amplitud.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Prueba1.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -46,72 +58,72 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
+              "Title": "a_estrella.py",
+              "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "ViewState": "AgIAACMAAAAAAAAAAAAuwC8AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-03-27T13:58:17.28Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "profundidad.py",
               "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\profundidad.py",
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\profundidad.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\profundidad.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\profundidad.py",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAAB4AAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA8AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:32:08.722Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Prueba1.txt",
-              "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Prueba1.txt",
-              "RelativeDocumentMoniker": "Prueba1.txt",
-              "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Prueba1.txt",
-              "RelativeToolTip": "Prueba1.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2026-03-26T21:19:26.3Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "amplitud.py",
               "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\amplitud.py",
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\amplitud.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\amplitud.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\amplitud.py",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAACkAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:12:17.681Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "ucs.py",
               "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\ucs.py",
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\ucs.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\ucs.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\ucs.py",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAxwCoAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAD8AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:10:38.162Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "utilidades.py",
               "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\utilidades.py",
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\utilidades.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\utilidades.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\utilidades.py",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAAAFkAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAGEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:10:36.781Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "Proyecto_Robotaxi.pyproj",
               "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\Proyecto_Robotaxi.pyproj",
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\Proyecto_Robotaxi.pyproj",
@@ -124,13 +136,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "modelos.py",
               "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\modelos.py",
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\modelos.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\modelos.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\modelos.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAAoAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:09:11.672Z",
               "EditorCaption": ""
@@ -143,9 +155,48 @@
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\main.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\main.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\main.py",
-              "ViewState": "AgIAAKMAAAAAAAAAAIAwwAIBAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAMAAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:09:09.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "__init__.py",
+              "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\__init__.py",
+              "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\__init__.py",
+              "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\__init__.py",
+              "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\__init__.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-03-27T14:59:33.756Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "__init__.py",
+              "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\__init__.py",
+              "RelativeDocumentMoniker": "Proyecto_Robotaxi\\__init__.py",
+              "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\__init__.py",
+              "RelativeToolTip": "Proyecto_Robotaxi\\__init__.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-03-27T15:02:50.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Prueba1.txt",
+              "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Prueba1.txt",
+              "RelativeDocumentMoniker": "Prueba1.txt",
+              "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Prueba1.txt",
+              "RelativeToolTip": "Prueba1.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-03-26T21:19:26.3Z",
               "EditorCaption": ""
             }
           ]
