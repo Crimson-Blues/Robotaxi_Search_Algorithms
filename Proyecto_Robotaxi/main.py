@@ -1,7 +1,7 @@
 # main.py
 import pygame
 import sys
-from busquedas import amplitud, utilidades, profundidad, ucs, a_estrella
+from busquedas import amplitud, utilidades, profundidad, ucs, a_estrella, avara
 from modelos import UIElement
 from pygame.sprite import Sprite
 
@@ -192,6 +192,10 @@ def main():
         {
             "ui": UIElement((150, 360), "A Estrella", 25, (40, 44, 52), (255, 255, 255)),
             "algo": a_estrella.buscar # Calls on the A* search algorithm
+        },
+        {
+            "ui": UIElement((150, 430), "Avara", 25, (40, 44, 52), (255, 255, 255)),
+            "algo": avara.buscar # Calls on the Greedy Best-First Search algorithm
         }
     ]
 
