@@ -54,21 +54,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "a_estrella.py",
-              "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
-              "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
-              "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
-              "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAuwCsAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2026-03-27T13:58:17.28Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 5,
@@ -150,9 +137,22 @@
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\main.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\main.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\main.py",
-              "ViewState": "AgIAAPkAAAAAAAAAAAAAAAcBAABXAAAAAAAAAA==",
+              "ViewState": "AgIAACsBAAAAAAAAAAAAAFsBAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:09:09.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "a_estrella.py",
+              "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAuwCsAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-03-27T13:58:17.28Z",
               "EditorCaption": ""
             },
             {
