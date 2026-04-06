@@ -3,6 +3,7 @@ from operator import contains
 from turtle import back
 import pygame
 import sys
+import os
 from busquedas import amplitud, utilidades, profundidad, ucs, a_estrella, avara
 from modelos import UIElement
 from pygame.sprite import Sprite
@@ -11,7 +12,7 @@ from tkinter import BUTT, filedialog
 from pathlib import Path
 
 # ... (Funciones de dibujo draw_world, etc.)
-def draw_world(screen, matrix, taxi_pos, offset_x=0):
+def draw_world(screen, matrix, taxi_pos, offset_x=0, offset_y=0):
     # Definición de colores modificados
     COLORS = {
         0: (255, 255, 255),  # Blanco: Calle libre
@@ -28,7 +29,7 @@ def draw_world(screen, matrix, taxi_pos, offset_x=0):
         for col_idx, value in enumerate(row):
             color = COLORS.get(value, (255, 255, 255))
             # Sumamos offset_x a la posición X del rectángulo
-            rect = pygame.Rect(offset_x + (col_idx * CELL_SIZE), row_idx * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            rect = pygame.Rect(offset_x + (col_idx * CELL_SIZE), offset_y + (row_idx * CELL_SIZE), CELL_SIZE, CELL_SIZE)
             pygame.draw.rect(screen, color, rect)
             pygame.draw.rect(screen, (18, 18, 18), rect, 1)
 
@@ -37,7 +38,7 @@ def draw_world(screen, matrix, taxi_pos, offset_x=0):
         tx_row, tx_col = taxi_pos
         # Calculamos la posición exacta sumando el offset_x del menú
         taxi_x = offset_x + (tx_col * CELL_SIZE) + 5
-        taxi_y = (tx_row * CELL_SIZE) + 5
+        taxi_y = offset_y + (tx_row * CELL_SIZE) + 5
         
         # Creamos el rectángulo del taxi
         taxi_rect = pygame.Rect(taxi_x, taxi_y, CELL_SIZE - 10, CELL_SIZE - 10)
@@ -48,9 +49,35 @@ def draw_world(screen, matrix, taxi_pos, offset_x=0):
         pygame.draw.rect(screen, (0, 0, 0), taxi_rect, 2, border_radius=5)
 
 def create_surface_with_text(text, font_size, text_rgb, bg_rgb):
-    # Returns surface with text written on
-    font = pygame.freetype.SysFont("Courier", font_size, bold=True)
-    surface, _ = font.render(text=text, fgcolor=text_rgb, bgcolor=bg_rgb)
+    font = pygame.font.SysFont("Arial", int(font_size), bold=True)
+    
+    if "Seleccionar Mundo" in text:
+        text_rgb = (255, 170, 0)
+        
+    text_surf = font.render(text, True, text_rgb)
+    
+    glow_size = 6
+    padding_x = 25 + glow_size
+    padding_y = 12 + glow_size
+    w = text_surf.get_width() + padding_x * 2
+    h = text_surf.get_height() + padding_y * 2
+    
+    surface = pygame.Surface((w, h), pygame.SRCALPHA)
+    
+    # Extraemos el color rgb
+    r, g, b = text_rgb
+    
+    if "Correr" in text or text.strip() == "X":
+        surface.blit(text_surf, (padding_x, padding_y))
+    else:
+        rect_outer = (glow_size, glow_size, w - glow_size * 2, h - glow_size * 2)
+        
+        pygame.draw.rect(surface, (r, g, b, 40), rect_outer, width=8, border_radius=12)
+        pygame.draw.rect(surface, (r, g, b, 90), rect_outer, width=5, border_radius=10)
+        pygame.draw.rect(surface, (r, g, b, 255), rect_outer, width=2, border_radius=8)
+
+        surface.blit(text_surf, (padding_x, padding_y))
+        
     return surface.convert_alpha()
 
 
@@ -189,6 +216,7 @@ def select_file():
 def main():
     # Initial config
     pygame.init()
+
     file_path = ""
 
     # Initialize empty map
@@ -199,8 +227,25 @@ def main():
     map_height = 400
 
     screen_width = 900
-    screen_height = 400
+    screen_height = 600  
     screen = pygame.display.set_mode((screen_width, screen_height))
+    
+    base_dir = os.path.dirname(__file__)
+    bg_path = os.path.join(base_dir, "assets", "background.png")
+    icon_path = os.path.join(base_dir, "assets", "icon.png")
+    
+    try:
+        bg_img = pygame.image.load(bg_path).convert()
+    except Exception as e:
+        print("Aviso: No se pudo cargar el fondo:", e)
+        bg_img = None
+        
+    try:
+        ui_icon = pygame.image.load(icon_path).convert_alpha()
+        ui_icon = pygame.transform.smoothscale(ui_icon, (110, 110))
+    except Exception as e:
+        print("Aviso: No se pudo cargar el icono:", e)
+        ui_icon = None
 
 
     
@@ -215,25 +260,25 @@ def main():
     buttons_algs = {
         "not_informed": [
         {
-            "ui": UIElement((panel_center_x, 150), "Amplitud", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 200), "Amplitud", 25, (40, 44, 52), (255, 255, 255)),
             "algo": amplitud.buscar # Calls on the amplitude search algorithm
         },
         {
-            "ui": UIElement((panel_center_x, 220), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 280), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
             "algo": profundidad.buscar # Calls on the depth search algorithm
         },
         {
-            "ui": UIElement((panel_center_x, 290), "Costo Uniforme", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 360), "Costo Uniforme", 25, (40, 44, 52), (255, 255, 255)),
             "algo": ucs.buscar # Calls on the cost search algorithm
         }
         ],
         "informed": [
         {
-            "ui": UIElement((panel_center_x, 150), "A Estrella", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 200), "A Estrella", 25, (40, 44, 52), (255, 255, 255)),
             "algo": a_estrella.buscar # Calls on the A* search algorithm
         },
         {
-            "ui": UIElement((panel_center_x, 220), "Avara", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 280), "Avara", 25, (40, 44, 52), (255, 255, 255)),
             "algo": avara.buscar # Calls on the Greedy Best-First Search algorithm
         }
         ]
@@ -242,33 +287,44 @@ def main():
 
     titles_algs = [
         {
-            "ui": UIElement((panel_center_x, 100), "Búsqueda No Informada", 30, (40, 17, 54), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 120), "Búsqueda No Informada", 30, (40, 17, 54), (255, 255, 255)),
             "funct": lambda: update_state("MENU INFORMADO")
         },
         {
-            "ui": UIElement((panel_center_x, 100), "Búsqueda Informada", 30, (40, 17, 54), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 120), "Búsqueda Informada", 30, (40, 17, 54), (255, 255, 255)),
             "funct": lambda: update_state("MENU NO INFORMADO")
         }
     ]
 
-    buttons_initial = [
+    buttons_initial_center = [
         {
-            "ui": UIElement((true_center_x, 100), "Seleccionar Mundo", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((true_center_x, 250), "Seleccionar Mundo", 25, (40, 44, 52), (255, 255, 255)),
             "funct": lambda: update_file(select_file()) # Select custom File
         },
         {
-            "ui": UIElement((true_center_x, 150), "Usar ejemplo", 15, (40, 44, 52), (158, 155, 155)),
+            "ui": UIElement((true_center_x, 320), "Usar ejemplo", 18, (40, 44, 52), (230, 245, 255)),
             "funct": lambda: update_file("Prueba1.txt") # Use example file
-        },
-        {
-            "ui": UIElement((true_center_x, 200), "Correr Simulación", 25, (102, 10, 11), (255, 255, 255)),
-            "funct": lambda: update_state("MENU NO INFORMADO")
-        },
-        {
-            "ui": UIElement((true_center_x + 60, 225), "X", 15, (40, 44, 52), (255, 255, 255)),
-            "funct": lambda: update_state("MENU INICIAL SIN MUNDO")
         }
-        ]
+    ]
+
+    buttons_initial_left = [
+        {
+            "ui": UIElement((300, 250), "Seleccionar Mundo", 25, (40, 44, 52), (255, 255, 255)),
+            "funct": lambda: update_file(select_file())
+        },
+        {
+            "ui": UIElement((300, 320), "Usar ejemplo", 18, (40, 44, 52), (230, 245, 255)),
+            "funct": lambda: update_file("Prueba1.txt")
+        },
+        {
+            "ui": UIElement((685, 200), "X", 15, (40, 44, 52), (255, 60, 60)),
+            "funct": lambda: update_state("MENU INICIAL SIN MUNDO")
+        },
+        {
+            "ui": UIElement((600, 390), "Correr Simulación", 23, (40, 44, 52), (255, 170, 0)),
+            "funct": lambda: update_state("MENU NO INFORMADO")
+        }
+    ]
 
     estado_actual = "MENU INICIAL SIN MUNDO" # Initial menu state
     current_taxi_pos = [0, 0]
@@ -276,37 +332,31 @@ def main():
     datos_finales = {}
     clock = pygame.time.Clock()
     current_title = None
-    button_list = []
+    button_list = buttons_initial_center
 
     #Inner functions to change menus
 
     def non_informed_menu():
-        nonlocal estado_actual
-        nonlocal current_title
-        nonlocal button_list
+        nonlocal estado_actual, current_title, button_list
         estado_actual = "MENU NO INFORMADO"
         current_title = titles_algs[0]
         button_list = buttons_algs["not_informed"]
 
     def informed_menu():
-        nonlocal estado_actual
-        nonlocal current_title
-        nonlocal button_list
+        nonlocal estado_actual, current_title, button_list
         current_title = titles_algs[1]
         estado_actual = "MENU INFORMADO"
         button_list = buttons_algs["informed"]
 
     def initial_menu_with_wrld():
-        nonlocal button_list
-        nonlocal estado_actual
+        nonlocal button_list, estado_actual
         estado_actual = "MENU INICIAL CON MUNDO"
-        button_list = buttons_initial
+        button_list = buttons_initial_left
 
     def initial_menu_no_wrld():
-        nonlocal button_list
-        nonlocal estado_actual
+        nonlocal button_list, estado_actual
         estado_actual = "MENU INICIAL SIN MUNDO"
-        button_list = buttons_initial[:-2]
+        button_list = buttons_initial_center
 
     #Auxilary functions to set button actions
 
@@ -378,7 +428,12 @@ def main():
 
 
 
-        screen.fill((30, 30, 30)) 
+        # Render del Fondo principal
+        if "MENU INICIAL" in estado_actual and bg_img:
+            bg_scaled = pygame.transform.scale(bg_img, (screen_width, screen_height))
+            screen.blit(bg_scaled, (0, 0))
+        else:
+            screen.fill((30, 30, 30)) 
 
         # Update state visuals
         if estado_actual == "MENU INICIAL SIN MUNDO":
@@ -396,7 +451,7 @@ def main():
             current_title["ui"].draw(screen)
             back_button["ui"].update(mouse_pos)
             back_button["ui"].draw(screen)
-            draw_world_preview(screen, map_matrix, CELL_SIZE, offset_x=500)
+            draw_world_preview(screen, map_matrix, CELL_SIZE, offset_x=450, offset_y=100)
 
         if "MENU" in estado_actual:
             for btn in button_list:
@@ -404,11 +459,19 @@ def main():
                 btn["ui"].draw(screen)
 
         if "MENU INICIAL" in estado_actual:
-            draw_text(screen, "Robotaxi Zoox", (true_center_x, 15), size=30, color=(255, 255, 255))
+            # Sombra oscura para darle relieve (tipo 3D como en la imagen)
+            draw_text(screen, "ROBOTAXI ZOOX", (true_center_x + 3, 46), size=55, color=(40, 30, 0))
+            # Título principal en color Oro/Amarillo
+            draw_text(screen, "ROBOTAXI ZOOX", (true_center_x, 43), size=55, color=(255, 170, 0))
+            
+        # Sólo lo mostramos cuando el mundo está vacío para que no estrelle con el minimapa!
+        if estado_actual == "MENU INICIAL SIN MUNDO":
+            if ui_icon:
+                icon_rect = ui_icon.get_rect(center=(true_center_x, 400))
+                screen.blit(ui_icon, icon_rect)
 
         if estado_actual == "MENU INICIAL CON MUNDO":
-            draw_world_preview(screen, map_matrix, 100/len(map_matrix[0]), offset_x=true_center_x-50, offset_y=220)
-            draw_text(screen, Path(file_path).name, (true_center_x, 330), size=15, color=(155, 155, 155))
+            draw_world_preview(screen, map_matrix, 150/len(map_matrix[0]), offset_x=600-75, offset_y=210)
 
         
         elif estado_actual == "SIMULACION":
@@ -426,7 +489,7 @@ def main():
                 path_index += 1
                 move_timer = 0
 
-            draw_world(screen, map_matrix, current_taxi_pos, offset_x=500)
+            draw_world(screen, map_matrix, current_taxi_pos, offset_x=450, offset_y=100)
             
             if path_index >= len(path):
                 draw_results_window(screen, **datos_finales)
