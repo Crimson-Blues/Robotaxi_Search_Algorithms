@@ -1,4 +1,5 @@
 # main.py
+from operator import contains
 import pygame
 import sys
 from busquedas import amplitud, utilidades, profundidad, ucs, a_estrella
@@ -43,14 +44,14 @@ def draw_world(screen, matrix, taxi_pos, offset_x=0):
         pygame.draw.rect(screen, (0, 0, 0), taxi_rect, 2, border_radius=5)
 
 def create_surface_with_text(text, font_size, text_rgb, bg_rgb):
-    """ Returns surface with text written on """
+    # Returns surface with text written on
     font = pygame.freetype.SysFont("Courier", font_size, bold=True)
     surface, _ = font.render(text=text, fgcolor=text_rgb, bgcolor=bg_rgb)
     return surface.convert_alpha()
 
 
 class UIElement(Sprite):
-    """ An user interface element that can be added to a surface """
+    # An user interface element that can be added to a surface 
 
     def __init__(self, center_position, text, font_size, bg_rgb, text_rgb):
         """
@@ -99,7 +100,7 @@ class UIElement(Sprite):
             self.mouse_over = False
 
     def draw(self, surface):
-        """ Draws element onto a surface """
+        # Draws element onto a surface
         surface.blit(self.image, self.rect)
 
 def draw_results_window(screen, exp, dep, cost, time):
@@ -139,9 +140,10 @@ def draw_text(screen, text, center, size=20, color=(255, 255, 255)):
     surf = font.render(text, True, color)
     rect = surf.get_rect(center=center)
     screen.blit(surf, rect)
+    return rect
 
 def draw_world_preview(screen, matrix, size, offset_x=0):
-    # Usamos exactamente tu paleta de colores para la vista previa
+    # Use color palette for preview of map
     COLORS = {
         0: (255, 255, 255),  # Blanco
         1: (112, 128, 144),  # Gris
@@ -159,10 +161,10 @@ def draw_world_preview(screen, matrix, size, offset_x=0):
             pygame.draw.rect(screen, (18, 18, 18), rect, 1)
 
 def main():
-    # ... (Configuración inicial)
+    # Initial config
     pygame.init()
     file_path = 'Prueba1.txt'
-    map_matrix_original = utilidades.read_world(file_path) # Usas la utilidad
+    map_matrix_original = utilidades.read_world(file_path) # Read world map
     if not map_matrix_original: return
 
     # Usamos una copia para trabajar
@@ -171,39 +173,50 @@ def main():
     CELL_SIZE = 40 
     map_width = len(map_matrix[0]) * CELL_SIZE
     map_height = len(map_matrix) * CELL_SIZE
-    screen = pygame.display.set_mode((300 + map_width, max(400, map_height)))
+    screen = pygame.display.set_mode((500 + map_width, max(400, map_height)))
     
-    panel_center_x = 150 
+    panel_center_x = 250 
 
-    # Ahora los botones se referencian
-    buttons = [
+    # Buttons for choosing search algorithm
+    buttons = {
+        "not_informed": [
         {
-            "ui": UIElement((150, 150), "Amplitud", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 150), "Amplitud", 25, (40, 44, 52), (255, 255, 255)),
             "algo": amplitud.buscar # Calls on the amplitude search algorithm
         },
         {
-            "ui": UIElement((150, 220), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 220), "Profundidad", 25, (40, 44, 52), (255, 255, 255)),
             "algo": profundidad.buscar # Calls on the depth search algorithm
         },
         {
-            "ui": UIElement((150, 290), "Costo Uniforme", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 290), "Costo Uniforme", 25, (40, 44, 52), (255, 255, 255)),
             "algo": ucs.buscar # Calls on the cost search algorithm
-        },
+        }
+        ],
+        "informed": [
         {
-            "ui": UIElement((150, 360), "A Estrella", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 150), "A Estrella", 25, (40, 44, 52), (255, 255, 255)),
             "algo": a_estrella.buscar # Calls on the A* search algorithm
         }
-    ]
+        ]
 
-    estado_actual = "MENU"
+    }
+
+    titles = {
+        "not_informed" : UIElement((panel_center_x, 100), "Búsqueda No Informada", 30, (0, 0, 0), (255, 255, 255)),
+        "informed" : UIElement((panel_center_x, 100), "Búsqueda Informada", 30, (0, 0, 0), (255, 255, 255))
+        }
+
+    estado_actual = "MENU NO INFORMADO"
     current_taxi_pos = [0, 0]
     path, path_index, move_timer = [], 0, 0
     datos_finales = {}
     clock = pygame.time.Clock()
+    current_title = None
 
     while True:
         mouse_pos = pygame.mouse.get_pos()
-        dt = clock.tick(60)
+        dt = clock.tick(100)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -212,17 +225,22 @@ def main():
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    estado_actual = "MENU"
+                    estado_actual = "MENU NO INFORMADO"
                     path_index = 0
                     move_timer = 0
                     path = []
                     map_matrix = [row[:] for row in map_matrix_original]
             
             # --- DETECCIÓN DE CLICS DINÁMICA ---
-            if estado_actual == "MENU" and event.type == pygame.MOUSEBUTTONDOWN:
-                for btn in buttons:
+            if "MENU" in estado_actual and event.type == pygame.MOUSEBUTTONDOWN:
+                if estado_actual == "MENU NO INFORMADO":
+                    button_list = buttons["not_informed"]
+                elif estado_actual == "MENU INFORMADO":
+                    button_list = buttons["informed"]
+
+                for btn in button_list:
                     if btn["ui"].rect.collidepoint(mouse_pos):
-                        # Ejecutamos el algoritmo asociado al botón presionado
+                        # Execute algorithm of chosen button
                         res = btn["algo"](map_matrix)
                         path, expanded, depth, cost, calc_time = res
                         datos_finales = {'exp': expanded, 'dep': depth, 'cost': cost, 'time': calc_time}
@@ -232,16 +250,40 @@ def main():
                         map_matrix[start_pos[0]][start_pos[1]] = 0 
                         estado_actual = "SIMULACION"
 
+                if current_title:
+                    if current_title.rect.collidepoint(mouse_pos):
+                        if estado_actual == "MENU NO INFORMADO":
+                            estado_actual = "MENU INFORMADO"
+                        elif estado_actual == "MENU INFORMADO":
+                            estado_actual = "MENU NO INFORMADO"
+
+
+
         screen.fill((30, 30, 30)) 
 
         # Dibujar Panel Lateral
-        draw_text(screen, "No Informada", (panel_center_x, 50), 30)
-        for btn in buttons:
-            btn["ui"].update(mouse_pos)
-            btn["ui"].draw(screen)
+        if estado_actual == "MENU NO INFORMADO":
+            titles["not_informed"].visibility = True
+            titles["informed"].visibility = False
+            current_title = titles["not_informed"]
 
-        if estado_actual == "MENU":
-            draw_world_preview(screen, map_matrix, CELL_SIZE, offset_x=300)
+            for btn in buttons["not_informed"]:
+                btn["ui"].update(mouse_pos)
+                btn["ui"].draw(screen)
+
+        elif estado_actual == "MENU INFORMADO":
+            titles["informed"].visibility = True
+            titles["not_informed"].visibility = False
+            current_title = titles["informed"]
+            for btn in buttons["informed"]:
+                btn["ui"].update(mouse_pos)
+                btn["ui"].draw(screen)
+
+
+        if "MENU" in estado_actual:
+            current_title.update(mouse_pos)
+            current_title.draw(screen)
+            draw_world_preview(screen, map_matrix, CELL_SIZE, offset_x=500)
         
         elif estado_actual == "SIMULACION":
             move_timer += dt
@@ -258,7 +300,7 @@ def main():
                 path_index += 1
                 move_timer = 0
 
-            draw_world(screen, map_matrix, current_taxi_pos, offset_x=300)
+            draw_world(screen, map_matrix, current_taxi_pos, offset_x=500)
             
             if path_index >= len(path):
                 draw_results_window(screen, **datos_finales)
@@ -268,20 +310,22 @@ def main():
 #Run main function
 if __name__ == "__main__":
     main()
-    file_path = 'Prueba1.txt'
-    map_matrix = read_world(file_path)
+
+    # file_path = 'Prueba1.txt'
+    # map_matrix = read_world(file_path)
     
-    if map_matrix:
-        path, expanded_nodes, depth, cost, calc_time = preferred_search_amplitude(map_matrix)
+    # if map_matrix:
+    #     print("Test")
+    #     path, expanded_nodes, depth, cost, calc_time = amplitud.buscar(map_matrix)
         
-        if path is not None:
-            print("Solución encontrada")
-            print("Ruta: ", path)
-            print("Nodos expandidos: ", expanded_nodes)
-            print("Profundidad del árbol: ", depth)
-            print("Costo total de la ruta: ", cost)
-            print("Tiempo de cómputo: ", calc_time, "segundos")
-        else:
-            print("\nNo se encontró una solución")
-            print("Nodos expandidos: ", expanded_nodes)
-            print("Tiempo de cómputo: ", calc_time, "segundos")
+    #     if path is not None:
+    #         print("Solución encontrada")
+    #         print("Ruta: ", path)
+    #         print("Nodos expandidos: ", expanded_nodes)
+    #         print("Profundidad del árbol: ", depth)
+    #         print("Costo total de la ruta: ", cost)
+    #         print("Tiempo de cómputo: ", calc_time, "segundos")
+    #     else:
+    #         print("\nNo se encontró una solución")
+    #         print("Nodos expandidos: ", expanded_nodes)
+    #         print("Tiempo de cómputo: ", calc_time, "segundos")
