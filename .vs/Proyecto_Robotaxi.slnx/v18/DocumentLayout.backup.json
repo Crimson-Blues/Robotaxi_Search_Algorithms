@@ -54,20 +54,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "a_estrella.py",
-              "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
-              "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
-              "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
-              "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
-              "ViewState": "AgIAAIEAAAAAAAAAAAAuwJYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2026-03-27T13:58:17.28Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 5,
@@ -136,7 +124,7 @@
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\modelos.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\modelos.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\modelos.py",
-              "ViewState": "AgIAACcAAAAAAAAAAAAAAHIAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAHIAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:09:11.672Z",
               "EditorCaption": ""
@@ -149,9 +137,38 @@
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\main.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\main.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\main.py",
-              "ViewState": "AgIAALsAAAAAAAAAAAAwwM4AAAAyAAAAAAAAAA==",
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+              "ViewState": "AgIAACsBAAAAAAAAAAAAAFsBAAANAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAC4AAAAqAAAAAAAAAA==",
+>>>>>>> Stashed changes
+=======
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAC4AAAAqAAAAAAAAAA==",
+>>>>>>> Stashed changes
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:09:09.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "a_estrella.py",
+              "DocumentMoniker": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+              "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+              "ViewState": "AgIAAB4AAAAAAAAAAAAuwCsAAAAWAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAAB4AAAAAAAAAAAAuwCsAAAAVAAAAAAAAAA==",
+>>>>>>> Stashed changes
+=======
+              "ViewState": "AgIAAB4AAAAAAAAAAAAuwCsAAAAVAAAAAAAAAA==",
+>>>>>>> Stashed changes
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-03-27T13:58:17.28Z",
               "EditorCaption": ""
             },
             {

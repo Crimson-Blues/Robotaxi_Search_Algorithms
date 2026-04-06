@@ -1,10 +1,14 @@
 # main.py
 from operator import contains
+from turtle import back
 import pygame
 import sys
 from busquedas import amplitud, utilidades, profundidad, ucs, a_estrella, avara
 from modelos import UIElement
 from pygame.sprite import Sprite
+import tkinter as tk
+from tkinter import BUTT, filedialog
+from pathlib import Path
 
 # ... (Funciones de dibujo draw_world, etc.)
 def draw_world(screen, matrix, taxi_pos, offset_x=0):
@@ -142,7 +146,7 @@ def draw_text(screen, text, center, size=20, color=(255, 255, 255)):
     screen.blit(surf, rect)
     return rect
 
-def draw_world_preview(screen, matrix, size, offset_x=0):
+def draw_world_preview(screen, matrix, size, offset_x=0, offset_y=0):
     # Use color palette for preview of map
     COLORS = {
         0: (255, 255, 255),  # Blanco
@@ -156,29 +160,59 @@ def draw_world_preview(screen, matrix, size, offset_x=0):
         for c, val in enumerate(row):
             color = COLORS.get(val, (255, 255, 255))
             # Aplicamos el desplazamiento offset_x a la coordenada X
-            rect = pygame.Rect(offset_x + (c * size), r * size, size, size)
+            rect = pygame.Rect(offset_x + (c * size), offset_y + (r * size), size, size)
             pygame.draw.rect(screen, color, rect)
             pygame.draw.rect(screen, (18, 18, 18), rect, 1)
+
+
+# Pop up file selection window 
+def select_file():
+    # Root window for carry on context
+    root = tk.Tk()
+    root.withdraw()
+    try:
+        icon = tk.PhotoImage(file='folder.png')
+        root.iconphoto(True, icon)
+    except Exception:
+        pass # Prevents crash if the image file is missing
+    filepath = filedialog.askopenfilename(
+        title="Selecciona Archivo",
+        filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")],
+        multiple=False,
+        parent=root
+    )
+
+    root.destroy()
+
+    return filepath
 
 def main():
     # Initial config
     pygame.init()
-    file_path = 'Prueba1.txt'
-    map_matrix_original = utilidades.read_world(file_path) # Read world map
-    if not map_matrix_original: return
+    file_path = ""
 
-    # Usamos una copia para trabajar
-    map_matrix = [row[:] for row in map_matrix_original]
+    # Initialize empty map
+    map_matrix = []
 
-    CELL_SIZE = 40 
-    map_width = len(map_matrix[0]) * CELL_SIZE
-    map_height = len(map_matrix) * CELL_SIZE
-    screen = pygame.display.set_mode((500 + map_width, max(400, map_height)))
+    CELL_SIZE = 0
+    map_width = 400
+    map_height = 400
+
+    screen_width = 900
+    screen_height = 400
+    screen = pygame.display.set_mode((screen_width, screen_height))
+
+
     
     panel_center_x = 250 
+    true_center_x = 450
 
     # Buttons for choosing search algorithm
-    buttons = {
+    back_button = {
+            "ui": UIElement((10, 10), "<-", 15, (40, 44, 52), (158, 155, 155)),
+            "funct": lambda: update_state("MENU INICIAL CON MUNDO")
+        }
+    buttons_algs = {
         "not_informed": [
         {
             "ui": UIElement((panel_center_x, 150), "Amplitud", 25, (40, 44, 52), (255, 255, 255)),
@@ -199,24 +233,101 @@ def main():
             "algo": a_estrella.buscar # Calls on the A* search algorithm
         },
         {
-            "ui": UIElement((150, 430), "Avara", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 220), "Avara", 25, (40, 44, 52), (255, 255, 255)),
             "algo": avara.buscar # Calls on the Greedy Best-First Search algorithm
         }
         ]
 
     }
 
-    titles = {
-        "not_informed" : UIElement((panel_center_x, 100), "Búsqueda No Informada", 30, (0, 0, 0), (255, 255, 255)),
-        "informed" : UIElement((panel_center_x, 100), "Búsqueda Informada", 30, (0, 0, 0), (255, 255, 255))
+    titles_algs = [
+        {
+            "ui": UIElement((panel_center_x, 100), "Búsqueda No Informada", 30, (40, 17, 54), (255, 255, 255)),
+            "funct": lambda: update_state("MENU INFORMADO")
+        },
+        {
+            "ui": UIElement((panel_center_x, 100), "Búsqueda Informada", 30, (40, 17, 54), (255, 255, 255)),
+            "funct": lambda: update_state("MENU NO INFORMADO")
         }
+    ]
 
-    estado_actual = "MENU NO INFORMADO"
+    buttons_initial = [
+        {
+            "ui": UIElement((true_center_x, 100), "Seleccionar Mundo", 25, (40, 44, 52), (255, 255, 255)),
+            "funct": lambda: update_file(select_file()) # Select custom File
+        },
+        {
+            "ui": UIElement((true_center_x, 150), "Usar ejemplo", 15, (40, 44, 52), (158, 155, 155)),
+            "funct": lambda: update_file("Prueba1.txt") # Use example file
+        },
+        {
+            "ui": UIElement((true_center_x, 200), "Correr Simulación", 25, (102, 10, 11), (255, 255, 255)),
+            "funct": lambda: update_state("MENU NO INFORMADO")
+        },
+        {
+            "ui": UIElement((true_center_x + 60, 225), "X", 15, (40, 44, 52), (255, 255, 255)),
+            "funct": lambda: update_state("MENU INICIAL SIN MUNDO")
+        }
+        ]
+
+    estado_actual = "MENU INICIAL SIN MUNDO" # Initial menu state
     current_taxi_pos = [0, 0]
     path, path_index, move_timer = [], 0, 0
     datos_finales = {}
     clock = pygame.time.Clock()
     current_title = None
+    button_list = []
+
+    #Inner functions to change menus
+
+    def non_informed_menu():
+        nonlocal estado_actual
+        nonlocal current_title
+        nonlocal button_list
+        estado_actual = "MENU NO INFORMADO"
+        current_title = titles_algs[0]
+        button_list = buttons_algs["not_informed"]
+
+    def informed_menu():
+        nonlocal estado_actual
+        nonlocal current_title
+        nonlocal button_list
+        current_title = titles_algs[1]
+        estado_actual = "MENU INFORMADO"
+        button_list = buttons_algs["informed"]
+
+    def initial_menu_with_wrld():
+        nonlocal button_list
+        nonlocal estado_actual
+        estado_actual = "MENU INICIAL CON MUNDO"
+        button_list = buttons_initial
+
+    def initial_menu_no_wrld():
+        nonlocal button_list
+        nonlocal estado_actual
+        estado_actual = "MENU INICIAL SIN MUNDO"
+        button_list = buttons_initial[:-2]
+
+    #Auxilary functions to set button actions
+
+    def update_file(new_file_path):
+        nonlocal map_matrix
+        nonlocal estado_actual
+        nonlocal CELL_SIZE
+        nonlocal file_path
+        estado_actual = "MENU INICIAL CON MUNDO"
+        file_path = new_file_path
+        map_matrix_original = utilidades.read_world(file_path) # Read world map
+        if not map_matrix_original: return
+
+        # Usamos una copia para trabajar
+        map_matrix = [row[:] for row in map_matrix_original]
+
+        CELL_SIZE = 400/len(map_matrix[0])
+
+    def update_state(new_state):
+        nonlocal estado_actual
+        estado_actual = new_state
 
     while True:
         mouse_pos = pygame.mouse.get_pos()
@@ -233,14 +344,13 @@ def main():
                     path_index = 0
                     move_timer = 0
                     path = []
-                    map_matrix = [row[:] for row in map_matrix_original]
             
-            # --- DETECCIÓN DE CLICS DINÁMICA ---
-            if "MENU" in estado_actual and event.type == pygame.MOUSEBUTTONDOWN:
+            # --- DYNAMIC CLICK DETECTION ---
+            if "INFORMADO" in estado_actual and event.type == pygame.MOUSEBUTTONDOWN:
                 if estado_actual == "MENU NO INFORMADO":
-                    button_list = buttons["not_informed"]
+                    button_list = buttons_algs["not_informed"]
                 elif estado_actual == "MENU INFORMADO":
-                    button_list = buttons["informed"]
+                    button_list = buttons_algs["informed"]
 
                 for btn in button_list:
                     if btn["ui"].rect.collidepoint(mouse_pos):
@@ -255,39 +365,51 @@ def main():
                         estado_actual = "SIMULACION"
 
                 if current_title:
-                    if current_title.rect.collidepoint(mouse_pos):
-                        if estado_actual == "MENU NO INFORMADO":
-                            estado_actual = "MENU INFORMADO"
-                        elif estado_actual == "MENU INFORMADO":
-                            estado_actual = "MENU NO INFORMADO"
+                    if current_title["ui"].rect.collidepoint(mouse_pos):
+                        current_title["funct"]()
+
+                if back_button["ui"].rect.collidepoint(mouse_pos):
+                    back_button["funct"]()
+
+            if "MENU INICIAL" in estado_actual and event.type == pygame.MOUSEBUTTONDOWN:
+                for btn in button_list:
+                    if btn["ui"].rect.collidepoint(mouse_pos):
+                        btn["funct"]()
 
 
 
         screen.fill((30, 30, 30)) 
 
-        # Dibujar Panel Lateral
-        if estado_actual == "MENU NO INFORMADO":
-            titles["not_informed"].visibility = True
-            titles["informed"].visibility = False
-            current_title = titles["not_informed"]
-
-            for btn in buttons["not_informed"]:
-                btn["ui"].update(mouse_pos)
-                btn["ui"].draw(screen)
-
+        # Update state visuals
+        if estado_actual == "MENU INICIAL SIN MUNDO":
+            initial_menu_no_wrld()
+        elif estado_actual == "MENU INICIAL CON MUNDO":
+            initial_menu_with_wrld()
+        elif estado_actual == "MENU NO INFORMADO":
+            non_informed_menu()
         elif estado_actual == "MENU INFORMADO":
-            titles["informed"].visibility = True
-            titles["not_informed"].visibility = False
-            current_title = titles["informed"]
-            for btn in buttons["informed"]:
-                btn["ui"].update(mouse_pos)
-                btn["ui"].draw(screen)
+            informed_menu()
 
+        # Drew updated visuals
+        if "INFORMADO" in estado_actual:
+            current_title["ui"].update(mouse_pos)
+            current_title["ui"].draw(screen)
+            back_button["ui"].update(mouse_pos)
+            back_button["ui"].draw(screen)
+            draw_world_preview(screen, map_matrix, CELL_SIZE, offset_x=500)
 
         if "MENU" in estado_actual:
-            current_title.update(mouse_pos)
-            current_title.draw(screen)
-            draw_world_preview(screen, map_matrix, CELL_SIZE, offset_x=500)
+            for btn in button_list:
+                btn["ui"].update(mouse_pos)
+                btn["ui"].draw(screen)
+
+        if "MENU INICIAL" in estado_actual:
+            draw_text(screen, "Robotaxi Zoox", (true_center_x, 15), size=30, color=(255, 255, 255))
+
+        if estado_actual == "MENU INICIAL CON MUNDO":
+            draw_world_preview(screen, map_matrix, 100/len(map_matrix[0]), offset_x=true_center_x-50, offset_y=220)
+            draw_text(screen, Path(file_path).name, (true_center_x, 330), size=15, color=(155, 155, 155))
+
         
         elif estado_actual == "SIMULACION":
             move_timer += dt

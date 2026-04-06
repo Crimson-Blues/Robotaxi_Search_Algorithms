@@ -41,7 +41,7 @@ def buscar(world_matrix):
 
         #Increment expanded nodes counter
         expanded_nodes += 1
-        print(f"f(n): {estim_cost(current_node, destination)}")
+        #print(f"f(n): {estim_cost(current_node, destination)}")
 
         #Check if the popped node is a goal
         if is_goal(current_node, destination):
