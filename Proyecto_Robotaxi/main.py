@@ -3,7 +3,7 @@ from operator import contains
 from turtle import back
 import pygame
 import sys
-from busquedas import amplitud, utilidades, profundidad, ucs, a_estrella
+from busquedas import amplitud, utilidades, profundidad, ucs, a_estrella, avara
 from modelos import UIElement
 from pygame.sprite import Sprite
 import tkinter as tk
