@@ -66,7 +66,8 @@
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\profundidad.py",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAA8AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2026-03-26T21:32:08.722Z"
+              "WhenOpened": "2026-03-26T21:32:08.722Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -78,7 +79,8 @@
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\amplitud.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2026-03-26T21:12:17.681Z"
+              "WhenOpened": "2026-03-26T21:12:17.681Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -90,7 +92,8 @@
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\ucs.py",
               "ViewState": "AgIAAC0AAAAAAAAAAAAAAD8AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2026-03-26T21:10:38.162Z"
+              "WhenOpened": "2026-03-26T21:10:38.162Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -102,7 +105,8 @@
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\utilidades.py",
               "ViewState": "AgIAAE4AAAAAAAAAAAAAADAAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2026-03-26T21:10:36.781Z"
+              "WhenOpened": "2026-03-26T21:10:36.781Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -114,7 +118,8 @@
               "RelativeToolTip": "Proyecto_Robotaxi\\Proyecto_Robotaxi.pyproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002460|",
-              "WhenOpened": "2026-03-26T21:10:25.397Z"
+              "WhenOpened": "2026-03-26T21:10:25.397Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -137,15 +142,7 @@
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\main.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\main.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\main.py",
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-              "ViewState": "AgIAACsBAAAAAAAAAAAAAFsBAAANAAAAAAAAAA==",
-=======
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAC4AAAAqAAAAAAAAAA==",
->>>>>>> Stashed changes
-=======
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAC4AAAAqAAAAAAAAAA==",
->>>>>>> Stashed changes
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-26T21:09:09.263Z",
               "EditorCaption": ""
@@ -158,15 +155,7 @@
               "RelativeDocumentMoniker": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
               "ToolTip": "C:\\Users\\Crimson\\Desktop\\Quinto Semestre\\IA\\Proyecto_Robotaxi\\Proyecto_Robotaxi\\busquedas\\a_estrella.py",
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\a_estrella.py",
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
               "ViewState": "AgIAAB4AAAAAAAAAAAAuwCsAAAAWAAAAAAAAAA==",
-=======
-              "ViewState": "AgIAAB4AAAAAAAAAAAAuwCsAAAAVAAAAAAAAAA==",
->>>>>>> Stashed changes
-=======
-              "ViewState": "AgIAAB4AAAAAAAAAAAAuwCsAAAAVAAAAAAAAAA==",
->>>>>>> Stashed changes
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2026-03-27T13:58:17.28Z",
               "EditorCaption": ""
@@ -181,7 +170,8 @@
               "RelativeToolTip": "Proyecto_Robotaxi\\busquedas\\__init__.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2026-03-27T14:59:33.756Z"
+              "WhenOpened": "2026-03-27T14:59:33.756Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -193,7 +183,8 @@
               "RelativeToolTip": "Proyecto_Robotaxi\\__init__.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2026-03-27T15:02:50.656Z"
+              "WhenOpened": "2026-03-27T15:02:50.656Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -205,7 +196,8 @@
               "RelativeToolTip": "Prueba1.txt",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2026-03-26T21:19:26.3Z"
+              "WhenOpened": "2026-03-26T21:19:26.3Z",
+              "EditorCaption": ""
             }
           ]
         }
