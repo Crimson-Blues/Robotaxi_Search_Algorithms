@@ -61,6 +61,7 @@ class UIElement(Sprite):
             text_rgb (text colour) - tuple (r, g, b)
         """
         self.mouse_over = False  # indicates if the mouse is over the element
+        self._visibility = True # Makes element visible or not
 
         # create the default image
         default_image = create_surface_with_text(
@@ -91,12 +92,24 @@ class UIElement(Sprite):
     def rect(self):
         return self.rects[1] if self.mouse_over else self.rects[0]
 
+    @property
+    def visibility(self):
+        return self._visibility
+
+    @visibility.setter
+    def visibility(self, value):
+        self._visibility = value
+
     def update(self, mouse_pos):
         if self.rect.collidepoint(mouse_pos):
             self.mouse_over = True
         else:
             self.mouse_over = False
 
+    def set_visibility(self, value):
+        self.visibility = value
+
     def draw(self, surface):
-        """ Draws element onto a surface """
-        surface.blit(self.image, self.rect)
+        # Draws element onto a surface if visibility is set to true
+        if self._visibility:
+            surface.blit(self.image, self.rect)
