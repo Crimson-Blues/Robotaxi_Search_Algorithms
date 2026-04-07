@@ -113,3 +113,9 @@ class UIElement(Sprite):
         # Draws element onto a surface if visibility is set to true
         if self._visibility:
             surface.blit(self.image, self.rect)
+
+
+
+
+
+            
