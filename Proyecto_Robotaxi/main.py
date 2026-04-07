@@ -11,6 +11,9 @@ import tkinter as tk
 from tkinter import BUTT, filedialog
 from pathlib import Path
 
+# Variable Global de Assets (Guarda imágenes cargadas a memoria)
+ASSETS = {}
+
 # ... (Funciones de dibujo draw_world, etc.)
 def draw_world(screen, matrix, taxi_pos, offset_x=0, offset_y=0):
     # Definición de colores modificados
@@ -27,26 +30,46 @@ def draw_world(screen, matrix, taxi_pos, offset_x=0, offset_y=0):
     
     for row_idx, row in enumerate(matrix):
         for col_idx, value in enumerate(row):
-            color = COLORS.get(value, (255, 255, 255))
-            # Sumamos offset_x a la posición X del rectángulo
             rect = pygame.Rect(offset_x + (col_idx * CELL_SIZE), offset_y + (row_idx * CELL_SIZE), CELL_SIZE, CELL_SIZE)
-            pygame.draw.rect(screen, color, rect)
+            
+            # Pintar el suelo base (blanco para calles)
+            base_color = COLORS.get(value, (255, 255, 255))
+            if value in [2, 4, 5]:
+                base_color = (255, 255, 255)
+            pygame.draw.rect(screen, base_color, rect)
             pygame.draw.rect(screen, (18, 18, 18), rect, 1)
+            
+            asset = None
+            if value == 2 and not taxi_pos and 'taxi' in ASSETS:
+                asset = ASSETS['taxi']
+            elif value == 4 and 'passenger' in ASSETS:
+                asset = ASSETS['passenger']
+            elif value == 5 and 'destination' in ASSETS:
+                asset = ASSETS['destination']
+            
+            # Renderizar el Icono encima de la calle blanca
+            if asset:
+                scaled_asset = pygame.transform.smoothscale(asset, (CELL_SIZE - 4, CELL_SIZE - 4))
+                screen.blit(scaled_asset, (rect.x + 2, rect.y + 2))
+            elif value in [2, 4, 5] and not taxi_pos:
+                # Fallback en caso de que ocurra un error con la imagen
+                pygame.draw.rect(screen, COLORS[value], rect)
+                pygame.draw.rect(screen, (18, 18, 18), rect, 1)
 
-    # Dibujar el taxi en movimiento si se proporciona una posición
+    # Dibujar el taxi animado superpuesto en movimiento si existe
     if taxi_pos:
         tx_row, tx_col = taxi_pos
-        # Calculamos la posición exacta sumando el offset_x del menú
-        taxi_x = offset_x + (tx_col * CELL_SIZE) + 5
-        taxi_y = offset_y + (tx_row * CELL_SIZE) + 5
+        rect = pygame.Rect(offset_x + (tx_col * CELL_SIZE), offset_y + (tx_row * CELL_SIZE), CELL_SIZE, CELL_SIZE)
         
-        # Creamos el rectángulo del taxi
-        taxi_rect = pygame.Rect(taxi_x, taxi_y, CELL_SIZE - 10, CELL_SIZE - 10)
-        
-        # Pintamos el taxi de AMARILLO (COLORS[2])
-        pygame.draw.rect(screen, COLORS[2], taxi_rect, border_radius=5)
-        # Opcional: un borde negro para que no se pierda en el blanco
-        pygame.draw.rect(screen, (0, 0, 0), taxi_rect, 2, border_radius=5)
+        if 'taxi' in ASSETS:
+            scaled_taxi = pygame.transform.smoothscale(ASSETS['taxi'], (CELL_SIZE - 2, CELL_SIZE - 2))
+            screen.blit(scaled_taxi, (rect.x + 1, rect.y + 1))
+        else:
+            taxi_x = offset_x + (tx_col * CELL_SIZE) + 5
+            taxi_y = offset_y + (tx_row * CELL_SIZE) + 5
+            taxi_rect = pygame.Rect(taxi_x, taxi_y, CELL_SIZE - 10, CELL_SIZE - 10)
+            pygame.draw.rect(screen, COLORS[2], taxi_rect, border_radius=5)
+            pygame.draw.rect(screen, (0, 0, 0), taxi_rect, 2, border_radius=5)
 
 def create_surface_with_text(text, font_size, text_rgb, bg_rgb):
     font = pygame.font.SysFont("Arial", int(font_size), bold=True)
@@ -185,11 +208,31 @@ def draw_world_preview(screen, matrix, size, offset_x=0, offset_y=0):
     }
     for r, row in enumerate(matrix):
         for c, val in enumerate(row):
-            color = COLORS.get(val, (255, 255, 255))
-            # Aplicamos el desplazamiento offset_x a la coordenada X
             rect = pygame.Rect(offset_x + (c * size), offset_y + (r * size), size, size)
-            pygame.draw.rect(screen, color, rect)
+            
+            # Pintar el suelo base (blanco para calles)
+            base_color = COLORS.get(val, (255, 255, 255))
+            if val in [2, 4, 5]:
+                base_color = (255, 255, 255)
+            pygame.draw.rect(screen, base_color, rect)
             pygame.draw.rect(screen, (18, 18, 18), rect, 1)
+            
+            asset = None
+            if val == 2 and 'taxi' in ASSETS:
+                asset = ASSETS['taxi']
+            elif val == 4 and 'passenger' in ASSETS:
+                asset = ASSETS['passenger']
+            elif val == 5 and 'destination' in ASSETS:
+                asset = ASSETS['destination']
+                
+            # Renderizar el Icono si existe
+            if asset:
+                scaled_asset = pygame.transform.smoothscale(asset, (int(size - 4), int(size - 4)))
+                screen.blit(scaled_asset, (rect.x + 2, rect.y + 2))
+            elif val in [2, 4, 5]:
+                # Fallback sin iconos
+                pygame.draw.rect(screen, COLORS[val], rect)
+                pygame.draw.rect(screen, (18, 18, 18), rect, 1)
 
 
 # Pop up file selection window 
@@ -246,6 +289,14 @@ def main():
     except Exception as e:
         print("Aviso: No se pudo cargar el icono:", e)
         ui_icon = None
+
+    global ASSETS
+    try:
+        ASSETS['taxi'] = pygame.image.load(os.path.join(base_dir, "assets", "taxi.png")).convert_alpha()
+        ASSETS['passenger'] = pygame.image.load(os.path.join(base_dir, "assets", "passenger.png")).convert_alpha()
+        ASSETS['destination'] = pygame.image.load(os.path.join(base_dir, "assets", "destination_icon.png")).convert_alpha()
+    except Exception as e:
+        print("Aviso: Fallo al cargar sprites de minimapa:", e)
 
 
     
