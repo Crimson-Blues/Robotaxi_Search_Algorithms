@@ -1,6 +1,4 @@
 # main.py
-from operator import contains
-from turtle import back
 import pygame
 import sys
 import os
@@ -8,8 +6,7 @@ from busquedas import amplitud, utilidades, profundidad, ucs, a_estrella, avara
 from modelos import UIElement
 from pygame.sprite import Sprite
 import tkinter as tk
-from tkinter import BUTT, filedialog
-from pathlib import Path
+from tkinter import filedialog
 
 # Variable Global de Assets (Guarda imágenes cargadas a memoria)
 ASSETS = {}
