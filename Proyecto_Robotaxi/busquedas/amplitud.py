@@ -5,20 +5,21 @@ from modelos import Node
 from .utilidades import is_goal, expand, reconstruct_path, find_positions
 
 def buscar(world_matrix): 
-    
+    # Initilization of key positions (Vehicle start position, destination, passenger positions)
     start, destination, initial_passengers = find_positions(world_matrix)
-    initial_state = (start, initial_passengers)
 
+    # Creation of root node with initial state
+    initial_state = (start, initial_passengers)
     root_node = Node(state=initial_state)
 
+    # Double sided queue for nodes yet to be expanded
     queue = deque([root_node])
-    visited = set()
-    visited.add(initial_state)
 
     expanded_nodes = 0
     start_time = time.time()
 
     while queue:
+        # Select left most node at queue to expand
         current_node = queue.popleft()
 
         # Count as expanded when checking if it is the goal
@@ -32,11 +33,9 @@ def buscar(world_matrix):
         # If it's not the goal, create its children
         children = expand(current_node, world_matrix)
 
+        #Append all children to the end of expanding queue
         for child in children:
-            # Validate visited nodes to avoid cycles
-            if child.state not in visited:
-                visited.add(child.state)
-                queue.append(child)
+            queue.append(child)
 
     # If the queue empties without finding the goal
     time_elapsed = time.time() - start_time

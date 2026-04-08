@@ -25,10 +25,8 @@ def buscar(world_matrix):
     # (Greedy Best-First Search ignores the actual accumulated cost g(n))
     # Each entry: (h(n), tie_breaker, node)
     frontier = []
-    heapq.heappush(frontier, (heuristic(root, destination), id(root), root))
-
-    # Track visited states to avoid re-expanding the same state
-    visited = set()
+    nid = 0
+    heapq.heappush(frontier, (heuristic(root, destination), nid, root))
 
     expanded_nodes = 0
     start_time = time.time()
@@ -38,11 +36,6 @@ def buscar(world_matrix):
         # Pop node with the lowest heuristic value (greedy choice)
         h_value, _, current_node = heapq.heappop(frontier)
 
-        # Skip already-visited states (lazy deletion approach)
-        if current_node.state in visited:
-            continue
-
-        visited.add(current_node.state)
         expanded_nodes += 1
 
         # Check if the current node satisfies the goal condition:
@@ -57,26 +50,25 @@ def buscar(world_matrix):
 
         # Insert children into the priority queue ordered by h(n)
         for child in children:
-            if child.state not in visited:
-                heapq.heappush(frontier, (heuristic(child, destination), id(child), child))
+            nid += 1
+            heapq.heappush(frontier, (heuristic(child, destination), nid, child))
 
     # If the frontier is exhausted without finding a solution
-    end_time = time.time()
-    return None, expanded_nodes, 0, 0, (end_time - start_time)
+    time_elapsed = time.time() - start_time
+    return None, expanded_nodes, current_node.depth, current_node.cost, time_elapsed
 
 
 # Heuristic function 
+""" Greedy heuristic h(n):
+Estimates the remaining cost from the current node to the goal.
 
+Strategy (same as heuristic from A*):
+- Find the passenger farthest from the vehicle.
+- h(n) = dist(vehicle -> farthest passenger) + dist(farthest passenger -> destination)
+- If no passengers remain, h(n) = dist(vehicle -> destination)
+
+This is admissible and guides the search greedily toward the goal."""
 def heuristic(node, destination):
-    """ Greedy heuristic h(n):
-    Estimates the remaining cost from the current node to the goal.
-
-    Strategy (mirrors heuristic_min from A*):
-    - Find the passenger farthest from the vehicle.
-    - h(n) = dist(vehicle -> farthest passenger) + dist(farthest passenger -> destination)
-    - If no passengers remain, h(n) = dist(vehicle -> destination)
-
-    This is admissible and guides the search greedily toward the goal."""
 
     vehicle_pos, passengers = node.state
 

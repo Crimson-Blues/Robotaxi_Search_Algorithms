@@ -281,6 +281,7 @@ def main():
 
     # Initialize empty map
     map_matrix = []
+    map_matrix_original = []
 
     CELL_SIZE = 0
     map_width = 400
@@ -465,6 +466,7 @@ def main():
 
     def update_file(new_file_path):
         nonlocal map_matrix
+        nonlocal map_matrix_original
         nonlocal estado_actual
         nonlocal CELL_SIZE
         nonlocal file_path
@@ -473,7 +475,7 @@ def main():
         map_matrix_original = utilidades.read_world(file_path) # Read world map
         if not map_matrix_original: return
 
-        # Usamos una copia para trabajar
+        # Mutable copy for searches
         map_matrix = [row[:] for row in map_matrix_original]
 
         CELL_SIZE = 360/len(map_matrix[0])
@@ -497,6 +499,7 @@ def main():
                     path_index = 0
                     move_timer = 0
                     path = []
+                    map_matrix = [row[:] for row in map_matrix_original] # Restart map_matrix 
             
             # --- DYNAMIC CLICK DETECTION ---
             if ("INFORMADO" in estado_actual or estado_actual == "MENU SELECCION ALGORITMO") and event.type == pygame.MOUSEBUTTONDOWN:
@@ -614,7 +617,7 @@ def main():
         
         elif estado_actual == "SIMULACION":
             move_timer += dt
-            if path and path_index < len(path) and move_timer > 10: # Velocidad de Ejecución
+            if path and path_index < len(path) and move_timer > 100: # Playback animation speed
                 direction = path[path_index]
                 if direction == 'Up': current_taxi_pos[0] -= 1
                 elif direction == 'Down': current_taxi_pos[0] += 1

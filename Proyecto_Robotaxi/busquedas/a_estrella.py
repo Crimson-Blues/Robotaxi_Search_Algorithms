@@ -8,8 +8,8 @@ from .utilidades import is_goal, expand, reconstruct_path, find_positions, manha
 
 def buscar(world_matrix):
 
-# Setting up of initial conditions
-     # Initial key positions
+    # Setting up of initial conditions
+    # Initial key positions
     start, destination, passengers = find_positions(world_matrix)
 
     # Initial state: start position of vehicle and position of passengers
@@ -23,11 +23,12 @@ def buscar(world_matrix):
         depth=0,
         cost=0
     )
+    nid = 0
 
     # Priority queue for nodes not yet expanded
     pending_nodes = []
     # Pop root node
-    heapq.heappush(pending_nodes, (estim_cost(root, destination), id(root) , root))
+    heapq.heappush(pending_nodes, (estim_cost(root, destination), nid , root))
 
 
     expanded_nodes = 0
@@ -41,7 +42,7 @@ def buscar(world_matrix):
 
         #Increment expanded nodes counter
         expanded_nodes += 1
-        #print(f"f(n): {estim_cost(current_node, destination)}")
+        #print(f"f(n)   : {estim_cost(current_node, destination)}")
 
         #Check if the popped node is a goal
         if is_goal(current_node, destination):
@@ -59,18 +60,19 @@ def buscar(world_matrix):
 
         #Insert children into priority queue
         for i, child in enumerate(children):
-            heapq.heappush(pending_nodes, (estim_cost(child, destination), id(child), child))
+            nid += 1
+            heapq.heappush(pending_nodes, (estim_cost(child, destination), nid, child))
 
 
     #If priority queue is empty and no solution is found:
 
-    end_time = time.time()
-    return None, expanded_nodes, 0, 0, (end_time - start_time)
+    time_elapsed = time.time() - start_time
+    return None, expanded_nodes, current_node.depth, current_node.cost, time_elapsed
 
 
 
 #Sum of Manhattan distance from vehicle to n passengers and destination divided by n+1
-def heuristic_average(node, destination):
+def heuristic_alt(node, destination):
     vehicle_pos, passengers = node.state
 
     distance = 0
@@ -85,8 +87,17 @@ def heuristic_average(node, destination):
 
     return distance
 
+#Heuristic function:
+""" heuristic h(n):
+Estimates the remaining cost from the current node to the goal.
 
-def heuristic_min(node, destination):
+Strategy:
+- Find the passenger farthest from the vehicle.
+- h(n) = dist(vehicle -> farthest passenger) + dist(farthest passenger -> destination)
+- If no passengers remain, h(n) = dist(vehicle -> destination)
+
+Is admissible as it calculates minimal required route"""
+def heuristic(node, destination):
     vehicle_pos, passengers = node.state
 
     estim = 0
@@ -106,35 +117,17 @@ def heuristic_min(node, destination):
 
     return estim
 
-#Sum of Manhattan distances from passenger to passenger from closest to furthest
-def heuristic_total(node, destination):
-    vehicle_pos, passengers = node.state
+# Estimating cost function
+""" Total cost estimation f(n):
+Estimates the total cost of solution of the branch.
+From root passing through current node to the goal.
 
-    estim = 0
-
-    #Determine distance of passengers from vehicles
-    dist_to_psgs = [(manhattan_dist(vehicle_pos, p), p) for p in passengers]
-    dist_to_psgs.sort()
-
-    #If there are remaining passengers
-    if dist_to_psgs:
-        #Adds distance from vehicle to closest passenger
-        estim += dist_to_psgs[0][0]
-
-        #Adds distances from passenger to passenger
-        for i in range(len(dist_to_psgs) - 1):
-            estim += manhattan_dist(dist_to_psgs[i][1], dist_to_psgs[i+1][1])
-
-        #Adds distance from furthest passenger to destination
-        estim += manhattan_dist(destination, dist_to_psgs[-1][1])
-
-    else:
-        estim += manhattan_dist(vehicle_pos, destination)
-    
-    return estim
-
+Strategy:
+- Add known cost from root to current node g(n)
+- Add heuristic estimation of cost from node to goal h(n)
+- f(n) = g(n) + h(n)"""
 def estim_cost(node, destination):
-    return node.cost + heuristic_min(node, destination)
+    return node.cost + heuristic(node, destination)
 
 
 #file_path = '../Prueba1.txt'

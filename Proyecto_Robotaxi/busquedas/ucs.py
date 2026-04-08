@@ -7,10 +7,10 @@ from busquedas.utilidades import find_positions, expand, is_goal, reconstruct_pa
 
 def buscar(world_matrix):
 
-    # Obtener posiciones
+    # Extract initial key positions
     start, destination, passengers = find_positions(world_matrix)
 
-    # Estado inicial
+    # Initial state and node (root)
     initial_state = (start, passengers)
 
     root = Node(
@@ -21,26 +21,19 @@ def buscar(world_matrix):
         cost=0
     )
 
-    # Cola de prioridad (costo, id, nodo)
+    # Priority queue (cost, nid, node)
+    nid = 0 # Node id (incremental simple counter) for tie breaks
     frontier = []
-    heapq.heappush(frontier, (0, id(root), root))
-
-    visited = set()
-    best_cost = {initial_state: 0}
+    heapq.heappush(frontier, (0, nid, root))
 
     expanded_nodes = 0
 
     start_time = time.time()
     while frontier:
         current_cost, _, current_node = heapq.heappop(frontier)
-
-        if current_node.state in visited:
-            continue
-
-        visited.add(current_node.state)
         expanded_nodes += 1
 
-        # Verificar objetivo
+        # Goal verification
         if is_goal(current_node, destination):
             end_time = time.time()
 
@@ -50,16 +43,13 @@ def buscar(world_matrix):
 
             return path, expanded_nodes, depth, total_cost, (end_time - start_time)
 
-        # Expandir
+        # Else: node expansion
         children = expand(current_node, world_matrix)
 
         for child in children:
-            state = child.state
+            nid += 1 # Increment node id
+            heapq.heappush(frontier, (child.cost, nid, child))
 
-            if state not in best_cost or child.cost < best_cost[state]:
-                best_cost[state] = child.cost
-                heapq.heappush(frontier, (child.cost, id(child), child))
-
-    # No hay solución
-    end_time = time.time()
-    return None, expanded_nodes, 0, 0, (end_time - start_time)
+    # In case no solution is found
+    time_elapsed = time.time() - start_time
+    return None, expanded_nodes, current_node.depth, current_node.cost, time_elapsed
