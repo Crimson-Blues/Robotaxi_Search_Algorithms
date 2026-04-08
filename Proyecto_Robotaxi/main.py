@@ -617,7 +617,7 @@ def main():
         
         elif estado_actual == "SIMULACION":
             move_timer += dt
-            if path and path_index < len(path) and move_timer > 10: # Velocidad de Ejecución
+            if path and path_index < len(path) and move_timer > 100: # Playback animation speed
                 direction = path[path_index]
                 if direction == 'Up': current_taxi_pos[0] -= 1
                 elif direction == 'Down': current_taxi_pos[0] += 1
