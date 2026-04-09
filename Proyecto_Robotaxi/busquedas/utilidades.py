@@ -43,11 +43,13 @@ def expand(current_node, world_matrix):
     # dr (delta row), dc (delta col), rator (operator)
     movements = [(-1, 0, 'Up'), (1, 0, 'Down'), (0, -1, 'Left'), (0, 1, 'Right')]
     
+    # Check all possible  operators
     for dr, dc, rator in movements:
         new_row = current_row + dr
         new_col = current_col + dc
-        
-        if 0 <= new_row < len(world_matrix) and 0 <= new_col < len(world_matrix[0]):            
+        # If new position is inside world boundaries 
+        if 0 <= new_row < len(world_matrix) and 0 <= new_col < len(world_matrix[0]):   
+            # Check if movement is not blocked by a wall
             if world_matrix[new_row][new_col] != 1:
                 movement_cost = 7 if world_matrix[new_row][new_col] == 3 else 1
                 new_cost = current_node.cost + movement_cost
@@ -65,6 +67,7 @@ def expand(current_node, world_matrix):
                     depth=current_node.depth + 1,
                     cost=new_cost
                 )
+                # Check if new node doesn't resultin a cycle
                 if not is_cycle(new_node):
                     children.append(new_node)
                 
@@ -85,7 +88,7 @@ def reconstruct_path(goal_node):
 def is_cycle(checked_node):
     current_node = checked_node.p
     check_state = checked_node.state
-    while current_node.p is not None:
+    while current_node is not None:
         if current_node.state == check_state:
             return True
         current_node = current_node.p
