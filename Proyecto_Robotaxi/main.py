@@ -175,21 +175,29 @@ class UIElement(Sprite):
         # Draws element onto a surface
         surface.blit(self.image, self.rect)
 
-def draw_results_window(screen, exp, dep, cost, time):
+def draw_results_window(screen, success, exp, dep, cost, time):
     # Crear una superficie para el fondo (con transparencia)
     overlay = pygame.Surface((480, 260))
     overlay.set_alpha(230) 
     overlay.fill((40, 44, 52)) # Color oscuro
     
     # Dibujar borde verde (color del destino)
-    pygame.draw.rect(overlay, (50, 205, 50), overlay.get_rect(), 3)
+    if success:
+        pygame.draw.rect(overlay, (50, 205, 50), overlay.get_rect(), 3)
+        message = "¡Misión Completada!"
+        txt_color = (50, 205, 50)
+    else:
+        pygame.draw.rect(overlay, (140, 8, 35), overlay.get_rect(), 3)
+        message = "Solución No Encontrada"
+        txt_color = (240, 10, 56)
     
     font = pygame.font.SysFont("Courier", 20, bold=True)
     title_font = pygame.font.SysFont("Courier", 24, bold=True)
 
     # Los textos ahora usan las variables exp, dep, cost y time
+
     texts = [
-        ("¡Misión Completada!", (50, 205, 50), title_font),
+        (message, txt_color, title_font),
         (f"Nodos Expandidos: {exp}", (255, 255, 255), font),
         (f"Profundidad: {dep}", (255, 255, 255), font),
         (f"Costo Total: {cost}", (255, 255, 255), font),
@@ -632,8 +640,11 @@ def main():
 
             draw_world(screen, map_matrix, current_taxi_pos, CELL_SIZE, offset_x=448, offset_y=127)
             
-            if path_index >= len(path):
-                draw_results_window(screen, **datos_finales)
+            if path and path_index >= len(path):
+                draw_results_window(screen, success=True, **datos_finales)
+
+            if path is None:
+                draw_results_window(screen, success=False, **datos_finales)
 
         pygame.display.flip()
 

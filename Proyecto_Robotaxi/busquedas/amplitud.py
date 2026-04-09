@@ -6,7 +6,7 @@ from .utilidades import is_goal, expand, reconstruct_path, find_positions
 
 def buscar(world_matrix): 
     # Initilization of key positions (Vehicle start position, destination, passenger positions)
-    start, destination, initial_passengers = find_positions(world_matrix)
+    start, destinations, initial_passengers = find_positions(world_matrix)
 
     # Creation of root node with initial state
     initial_state = (start, initial_passengers)
@@ -25,7 +25,7 @@ def buscar(world_matrix):
         # Count as expanded when checking if it is the goal
         expanded_nodes += 1
 
-        if is_goal(current_node, destination):
+        if is_goal(current_node, destinations):
             time_elapsed = time.time() - start_time
             path = reconstruct_path(current_node)
             return path, expanded_nodes, current_node.depth, current_node.cost, time_elapsed
@@ -39,4 +39,4 @@ def buscar(world_matrix):
 
     # If the queue empties without finding the goal
     time_elapsed = time.time() - start_time
-    return reconstruct_path(current_node), expanded_nodes, current_node.depth, current_node.cost, time_elapsed
+    return None, expanded_nodes, current_node.depth, current_node.cost, time_elapsed

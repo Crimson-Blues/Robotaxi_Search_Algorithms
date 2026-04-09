@@ -10,7 +10,7 @@ def buscar(world_matrix):
 
     # Setting up of initial conditions
     # Initial key positions
-    start, destination, passengers = find_positions(world_matrix)
+    start, destinations, passengers = find_positions(world_matrix)
 
     # Initial state: start position of vehicle and position of passengers
     initial_state = (start, passengers)
@@ -28,7 +28,7 @@ def buscar(world_matrix):
     # Priority queue for nodes not yet expanded
     pending_nodes = []
     # Pop root node
-    heapq.heappush(pending_nodes, (estim_cost(root, destination), nid , root))
+    heapq.heappush(pending_nodes, (estim_cost(root, destinations), nid , root))
 
 
     expanded_nodes = 0
@@ -45,7 +45,7 @@ def buscar(world_matrix):
         #print(f"f(n)   : {estim_cost(current_node, destination)}")
 
         #Check if the popped node is a goal
-        if is_goal(current_node, destination):
+        if is_goal(current_node, destinations):
             end_time = time.time()
 
             path = reconstruct_path(current_node)
@@ -61,7 +61,7 @@ def buscar(world_matrix):
         #Insert children into priority queue
         for i, child in enumerate(children):
             nid += 1
-            heapq.heappush(pending_nodes, (estim_cost(child, destination), nid, child))
+            heapq.heappush(pending_nodes, (estim_cost(child, destinations), nid, child))
 
 
     #If priority queue is empty and no solution is found:
@@ -97,7 +97,7 @@ Strategy:
 - If no passengers remain, h(n) = dist(vehicle -> destination)
 
 Is admissible as it calculates minimal required route"""
-def heuristic(node, destination):
+def heuristic(node, destinations):
     vehicle_pos, passengers = node.state
 
     estim = 0
@@ -106,14 +106,24 @@ def heuristic(node, destination):
     dist_to_psgs = [(manhattan_dist(vehicle_pos, p), p) for p in passengers]
     dist_to_psgs.sort()
     
-    if dist_to_psgs:
+    if dist_to_psgs and destinations:
         furthest_psg =  dist_to_psgs[-1]
         #Distance to furthest passenger
         estim += furthest_psg[0]
-        #Distance from furthest passenger to destinatio
-        estim += manhattan_dist(furthest_psg[1], destination)
-    else: #In case there's no passengers left
-        estim += manhattan_dist(vehicle_pos, destination)
+
+        # Compute distance from farthest passenger to destinations
+        dist_to_dests = [(manhattan_dist(furthest_psg[1], d), d) for d in destinations]
+
+        # Select the closest destination
+        closest_dist_d, closest_dest = dist_to_dests[0]
+
+        estim += closest_dist_d
+
+    elif destinations: #In case there's no passengers left: Distance to closest destination
+        dist_to_dests = [(manhattan_dist(vehicle_pos, d), d) for d in destinations]
+        closest_dist_d, closest_dest = dist_to_dests[0]
+
+        estim += closest_dist_d
 
     return estim
 
@@ -126,8 +136,8 @@ Strategy:
 - Add known cost from root to current node g(n)
 - Add heuristic estimation of cost from node to goal h(n)
 - f(n) = g(n) + h(n)"""
-def estim_cost(node, destination):
-    return node.cost + heuristic(node, destination)
+def estim_cost(node, destinations):
+    return node.cost + heuristic(node, destinations)
 
 
 #file_path = '../Prueba1.txt'
