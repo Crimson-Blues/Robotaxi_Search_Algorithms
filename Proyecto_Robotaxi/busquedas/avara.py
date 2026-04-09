@@ -72,7 +72,7 @@ def heuristic(node, destination):
 
     vehicle_pos, passengers = node.state
 
-    if passengers:
+    if passengers and destination:
         # Compute distance from vehicle to each remaining passenger
         dist_to_passengers = [(manhattan_dist(vehicle_pos, p), p) for p in passengers]
         dist_to_passengers.sort()
@@ -82,6 +82,8 @@ def heuristic(node, destination):
 
         # h(n) = distance to farthest passenger + distance from that passenger to destination
         return farthest_dist + manhattan_dist(farthest_psg, destination)
-    else:
+    elif destination:
         # All passengers picked up: only need to reach the destination
         return manhattan_dist(vehicle_pos, destination)
+    else:
+        return 0

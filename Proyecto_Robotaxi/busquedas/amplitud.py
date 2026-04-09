@@ -39,4 +39,4 @@ def buscar(world_matrix):
 
     # If the queue empties without finding the goal
     time_elapsed = time.time() - start_time
-    return reconstruct_path(current_node), expanded_nodes, current_node.depth, current_node.cost, time_elapsed
+    return None, expanded_nodes, current_node.depth, current_node.cost, time_elapsed

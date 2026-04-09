@@ -106,13 +106,13 @@ def heuristic(node, destination):
     dist_to_psgs = [(manhattan_dist(vehicle_pos, p), p) for p in passengers]
     dist_to_psgs.sort()
     
-    if dist_to_psgs:
+    if dist_to_psgs and destination:
         furthest_psg =  dist_to_psgs[-1]
         #Distance to furthest passenger
         estim += furthest_psg[0]
         #Distance from furthest passenger to destinatio
         estim += manhattan_dist(furthest_psg[1], destination)
-    else: #In case there's no passengers left
+    elif destination: #In case there's no passengers left
         estim += manhattan_dist(vehicle_pos, destination)
 
     return estim
