@@ -17,22 +17,22 @@ def read_world(file_path):
     
 def find_positions(map_matrix):
     start = None
-    destination = None
+    destinations = set()
     passengers = set()
     for row in range(len(map_matrix)):
         for col in range(len(map_matrix[row])):
             if map_matrix[row][col] == 2:
                 start = (row, col)
             elif map_matrix[row][col] == 5:
-                destination = (row, col)
+                destinations.add((row, col))
             elif map_matrix[row][col] == 4:
                 passengers.add((row, col))
-    return start, destination, frozenset(passengers)
+    return start, frozenset(destinations), frozenset(passengers)
 
 
-def is_goal(node, destination):
+def is_goal(node, destinations):
     current_position, remaining_passengers =  node.state
-    return current_position == destination and len(remaining_passengers) == 0
+    return current_position in destinations and len(remaining_passengers) == 0
 
 
 def expand(current_node, world_matrix):
@@ -67,7 +67,7 @@ def expand(current_node, world_matrix):
                     depth=current_node.depth + 1,
                     cost=new_cost
                 )
-                # Check if new node doesn't resultin a cycle
+                # Check if new node doesn't result in a cycle
                 if not is_cycle(new_node):
                     children.append(new_node)
                 

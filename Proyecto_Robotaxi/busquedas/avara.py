@@ -7,7 +7,7 @@ from .utilidades import is_goal, expand, reconstruct_path, find_positions, manha
 
 def buscar(world_matrix):
     # Find key positions on the map
-    start, destination, passengers = find_positions(world_matrix)
+    start, destinations, passengers = find_positions(world_matrix)
 
     # Initial state: vehicle start position + set of remaining passengers
     initial_state = (start, passengers)
@@ -26,7 +26,7 @@ def buscar(world_matrix):
     # Each entry: (h(n), tie_breaker, node)
     frontier = []
     nid = 0
-    heapq.heappush(frontier, (heuristic(root, destination), nid, root))
+    heapq.heappush(frontier, (heuristic(root, destinations), nid, root))
 
     expanded_nodes = 0
     start_time = time.time()
@@ -40,7 +40,7 @@ def buscar(world_matrix):
 
         # Check if the current node satisfies the goal condition:
         # vehicle at destination AND no remaining passengers
-        if is_goal(current_node, destination):
+        if is_goal(current_node, destinations):
             end_time = time.time()
             path = reconstruct_path(current_node)
             return path, expanded_nodes, current_node.depth, current_node.cost, (end_time - start_time)
@@ -51,7 +51,7 @@ def buscar(world_matrix):
         # Insert children into the priority queue ordered by h(n)
         for child in children:
             nid += 1
-            heapq.heappush(frontier, (heuristic(child, destination), nid, child))
+            heapq.heappush(frontier, (heuristic(child, destinations), nid, child))
 
     # If the frontier is exhausted without finding a solution
     time_elapsed = time.time() - start_time
@@ -64,26 +64,38 @@ Estimates the remaining cost from the current node to the goal.
 
 Strategy (same as heuristic from A*):
 - Find the passenger farthest from the vehicle.
-- h(n) = dist(vehicle -> farthest passenger) + dist(farthest passenger -> destination)
-- If no passengers remain, h(n) = dist(vehicle -> destination)
+- Find the closest destination to farthers passenger
+- h(n) = dist(vehicle -> farthest passenger) + dist(farthest passenger -> closest destination)
+- If no passengers remain, h(n) = dist(vehicle -> closest destination)
 
 This is admissible and guides the search greedily toward the goal."""
-def heuristic(node, destination):
+def heuristic(node, destinations):
 
     vehicle_pos, passengers = node.state
 
-    if passengers and destination:
+    if passengers and destinations:
         # Compute distance from vehicle to each remaining passenger
         dist_to_passengers = [(manhattan_dist(vehicle_pos, p), p) for p in passengers]
         dist_to_passengers.sort()
 
         # Select the farthest passenger as the bottleneck
-        farthest_dist, farthest_psg = dist_to_passengers[-1]
+        farthest_dist_p, farthest_psg = dist_to_passengers[-1]
+
+        # Compute distance from farthest passenger to destinations
+        dist_to_dests = [(manhattan_dist(farthest_psg, d), d) for d in destinations]
+
+        # Select the closest destination
+        closest_dist_d, closest_dest = dist_to_dests[0]
 
         # h(n) = distance to farthest passenger + distance from that passenger to destination
-        return farthest_dist + manhattan_dist(farthest_psg, destination)
-    elif destination:
-        # All passengers picked up: only need to reach the destination
-        return manhattan_dist(vehicle_pos, destination)
+        return farthest_dist_p + closest_dist_d
+    elif destinations:
+        # All passengers picked up: only need to reach the closest destination
+        dist_to_dests = [(manhattan_dist(vehicle_pos, d), d) for d in destinations]
+
+        # Select the closest destination
+        closest_dist_d, closest_dest = dist_to_dests[0]
+
+        return closest_dist_d
     else:
         return 0

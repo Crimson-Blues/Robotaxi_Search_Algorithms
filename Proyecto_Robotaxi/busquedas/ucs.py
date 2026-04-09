@@ -8,7 +8,7 @@ from busquedas.utilidades import find_positions, expand, is_goal, reconstruct_pa
 def buscar(world_matrix):
 
     # Extract initial key positions
-    start, destination, passengers = find_positions(world_matrix)
+    start, destinations, passengers = find_positions(world_matrix)
 
     # Initial state and node (root)
     initial_state = (start, passengers)
@@ -34,7 +34,7 @@ def buscar(world_matrix):
         expanded_nodes += 1
 
         # Goal verification
-        if is_goal(current_node, destination):
+        if is_goal(current_node, destinations):
             end_time = time.time()
 
             path = reconstruct_path(current_node)
