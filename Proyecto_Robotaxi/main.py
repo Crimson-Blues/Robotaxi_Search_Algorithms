@@ -68,11 +68,8 @@ def draw_world(screen, matrix, taxi_pos, size, offset_x=0, offset_y=0):
             pygame.draw.rect(screen, COLORS[2], taxi_rect, border_radius=5)
             pygame.draw.rect(screen, (0, 0, 0), taxi_rect, 2, border_radius=5)
 
-def create_surface_with_text(text, font_size, text_rgb, bg_rgb, border_color=None):
+def create_surface_with_text(text, font_size, text_rgb, bg_rgb, border_color=None, text_style=None):
     font = pygame.font.SysFont("Arial", int(font_size), bold=True)
-    
-    if "Seleccionar Mundo" in text:
-        text_rgb = (255, 170, 0)
         
     lines = text.split('\n')
     text_surfs = [font.render(line, True, text_rgb) for line in lines]
@@ -92,13 +89,8 @@ def create_surface_with_text(text, font_size, text_rgb, bg_rgb, border_color=Non
     r, g, b = text_rgb
     br, bg, bb = border_color if border_color else text_rgb
     
-    plain_text_mode = False
-    upper_text = text.upper()
-    keywords = ["CORRER", "ALGORITMOS DE", "INFORMADA", "ESTRELLA", "AVARA", "AMPLITUD", "PROFUNDIDAD", "COSTO"]
-    if any(k in upper_text for k in keywords) or text.strip() == "X" or text.endswith(" "):
-        plain_text_mode = True
 
-    if plain_text_mode:
+    if text_style == "PLAIN":
         current_y = padding_y
         for i, s in enumerate(text_surfs):
             x_pos = padding_x + (max_w - s.get_width()) // 2
@@ -123,7 +115,7 @@ def create_surface_with_text(text, font_size, text_rgb, bg_rgb, border_color=Non
 class UIElement(Sprite):
     # An user interface element that can be added to a surface 
 
-    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, border_color=None):
+    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, border_color=None, text_style=None):
         """
         Args:
             center_position - tuple (x, y)
@@ -137,13 +129,13 @@ class UIElement(Sprite):
 
         # create the default image
         default_image = create_surface_with_text(
-            text=text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb, border_color=border_color
+            text=text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb, border_color=border_color, text_style=text_style
         )
 
         # create the image that shows when mouse is over the element
         scale_factor = 1.0 if ("ALGORITMOS DE" in text or text.endswith(" ")) else 1.1
         highlighted_image = create_surface_with_text(
-            text=text, font_size=font_size * scale_factor, text_rgb=text_rgb, bg_rgb=bg_rgb, border_color=border_color
+            text=text, font_size=font_size * scale_factor, text_rgb=text_rgb, bg_rgb=bg_rgb, border_color=border_color, text_style=text_style
         )
 
         # add both images and their rects to lists
@@ -351,35 +343,35 @@ def main():
     buttons_algs = {
         "selection": [
             {
-                "ui": UIElement((panel_center_x, 277), "BÚSQUEDA NO\nINFORMADA", 20, (40, 44, 52), (255, 170, 0)),
+                "ui": UIElement((panel_center_x, 277), "BÚSQUEDA NO\nINFORMADA", 20, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
                 "funct": lambda: update_state("MENU NO INFORMADO")
             },
             {
-                "ui": UIElement((panel_center_x, 399), "BÚSQUEDA\nINFORMADA", 20, (40, 44, 52), (255, 170, 0)),
+                "ui": UIElement((panel_center_x, 399), "BÚSQUEDA\nINFORMADA", 20, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
                 "funct": lambda: update_state("MENU INFORMADO")
             }
         ],
         "not_informed": [
         {
-            "ui": UIElement((panel_center_x, 256), "Amplitud", 25, (40, 44, 52), (255, 170, 0)),
+            "ui": UIElement((panel_center_x, 256), "Amplitud", 25, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
             "algo": amplitud.buscar # Calls on the amplitude search algorithm
         },
         {
-            "ui": UIElement((panel_center_x, 341), "Profundidad", 25, (40, 44, 52), (255, 170, 0)),
+            "ui": UIElement((panel_center_x, 341), "Profundidad", 25, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
             "algo": profundidad.buscar # Calls on the depth search algorithm
         },
         {
-            "ui": UIElement((panel_center_x, 423), "Costo Uniforme", 25, (40, 44, 52), (255, 170, 0)),
+            "ui": UIElement((panel_center_x, 423), "Costo Uniforme", 25, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
             "algo": ucs.buscar # Calls on the cost search algorithm
         }
         ],
         "informed": [
         {
-            "ui": UIElement((panel_center_x, 278), "A Estrella", 25, (40, 44, 52), (255, 170, 0)),
+            "ui": UIElement((panel_center_x, 278), "A Estrella", 25, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
             "algo": a_estrella.buscar # Calls on the A* search algorithm
         },
         {
-            "ui": UIElement((panel_center_x, 397), "Avara", 25, (40, 44, 52), (255, 170, 0)),
+            "ui": UIElement((panel_center_x, 397), "Avara", 25, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
             "algo": avara.buscar # Calls on the Greedy Best-First Search algorithm
         }
         ]
@@ -388,23 +380,23 @@ def main():
 
     titles_algs = [
         {
-            "ui": UIElement((panel_center_x, 173), "BÚSQUEDA NO\nINFORMADA ", 22, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 173), "BÚSQUEDA NO\nINFORMADA ", 22, (40, 44, 52), (255, 255, 255), text_style="PLAIN"),
             "funct": lambda: None
         },
         {
-            "ui": UIElement((panel_center_x, 169), "BÚSQUEDA\nINFORMADA ", 22, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((panel_center_x, 169), "BÚSQUEDA\nINFORMADA ", 22, (40, 44, 52), (255, 255, 255), text_style="PLAIN"),
             "funct": lambda: None
         }
     ]
 
     tipo_algs_title = {
-        "ui": UIElement((panel_center_x, 169), "ALGORITMOS DE\nBÚSQUEDA", 22, (40, 44, 52), (255, 255, 255)),
+        "ui": UIElement((panel_center_x, 169), "ALGORITMOS DE\nBÚSQUEDA", 22, (40, 44, 52), (255, 255, 255), text_style="PLAIN"),
         "funct": lambda: None
     }
 
     buttons_initial_center = [
         {
-            "ui": UIElement((true_center_x, 250), "Seleccionar Mundo", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((true_center_x, 250), "Seleccionar Mundo", 25, (40, 44, 52), (255, 170, 0)),
             "funct": lambda: update_file(select_file()) # Select custom File
         },
         {
@@ -415,7 +407,7 @@ def main():
 
     buttons_initial_left = [
         {
-            "ui": UIElement((300, 250), "Seleccionar Mundo", 25, (40, 44, 52), (255, 255, 255)),
+            "ui": UIElement((300, 250), "Seleccionar Mundo", 25, (40, 44, 52), (255, 170, 0)),
             "funct": lambda: update_file(select_file())
         },
         {
@@ -423,11 +415,11 @@ def main():
             "funct": lambda: update_file("Prueba1.txt")
         },
         {
-            "ui": UIElement((685, 200), "X", 15, (40, 44, 52), (255, 60, 60)),
+            "ui": UIElement((685, 200), "X", 15, (40, 44, 52), (255, 60, 60), text_style="PLAIN"),
             "funct": lambda: update_state("MENU INICIAL SIN MUNDO")
         },
         {
-            "ui": UIElement((600, 390), "Correr Simulación", 23, (40, 44, 52), (255, 170, 0)),
+            "ui": UIElement((600, 390), "Correr Simulación", 23, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
             "funct": lambda: update_state("MENU SELECCION ALGORITMO")
         }
     ]
