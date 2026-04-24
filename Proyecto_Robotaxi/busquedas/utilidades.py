@@ -1,5 +1,6 @@
 # busquedas/utilidades.py
 from modelos import Node
+import pygame
 
 def read_world(file_path):
     world_matrix = []
