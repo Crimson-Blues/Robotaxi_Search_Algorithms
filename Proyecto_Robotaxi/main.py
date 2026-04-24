@@ -38,14 +38,17 @@ def main():
     bg_img = ASSETS["bg_img"]
     bg2_img = ASSETS["bg2_img"]
     bg3_img = ASSETS["bg3_img"]
+    bg2_sim_img = ASSETS["bg2_sim_img"]
+    bg3_sim_img = ASSETS["bg3_sim_img"]
     ui_icon = ASSETS["ui_icon"]
+    icon_font_path = ASSETS["icon_font_path"]
 
     panel_center_x = 250 
     true_center_x = 450
 
     # Buttons for choosing search algorithm
     back_button = {
-            "ui": UIElement((44, 24), "<-", 15, (40, 44, 52), (158, 155, 155)),
+            "ui": UIElement((44, 24), "\u2190", 15, (40, 44, 52), (158, 155, 155), font=icon_font_path),
             "funct": lambda: initial_menu_with_wrld()
         }
     buttons_algs = {
@@ -132,21 +135,21 @@ def main():
         }
     ]
 
-    simulation_btns_dx = 75
-    simulation_btns_y = 550
+    simulation_btns_dx = 100
+    simulation_btns_y = 555
 
     buttons_simulation = [
         {
-            "ui": UIElement((true_center_x, simulation_btns_y), "▶", 25, (40, 44, 52), (255, 170, 0), alt_text = "⏸",
-                            alt_flag = (lambda: (estado_simulacion == "PLAY"))),
+            "ui": UIElement((true_center_x, simulation_btns_y), "\uf04b", 25, (40, 44, 52), (255, 170, 0), alt_text = "\uf04c",
+                            alt_flag = (lambda: (estado_simulacion == "PLAY")), font=icon_font_path),
             "funct": lambda: play_btn_func()
         },
         {
-            "ui": UIElement((true_center_x - simulation_btns_dx, simulation_btns_y), "<-", 18, (40, 44, 52), (230, 245, 255)),
+            "ui": UIElement((true_center_x - simulation_btns_dx, simulation_btns_y), "\u23EA", 15, (40, 44, 52), (230, 245, 255), font=icon_font_path),
             "funct": lambda: rewind_btn_func()
         },
         {
-            "ui": UIElement((true_center_x + simulation_btns_dx, simulation_btns_y), "->", 15, (40, 44, 52), (255, 60, 60)),
+            "ui": UIElement((true_center_x + simulation_btns_dx, simulation_btns_y), "\u23E9", 15, (40, 44, 52), (230, 245, 255), font=icon_font_path),
             "funct": lambda: forward_btn_func()
         },
     ]
@@ -335,16 +338,24 @@ def main():
         if "MENU INICIAL" in estado_actual and bg_img:
             bg_scaled = pygame.transform.scale(bg_img, (screen_width, screen_height))
             screen.blit(bg_scaled, (0, 0))
+
         elif estado_actual in ["MENU SELECCION ALGORITMO", "MENU INFORMADO", "SIMULACION"]:
             # Durante la simulación, decidimos el fondo según la categoría (current_title)
-            if estado_actual == "SIMULACION" and current_title and "NO" in current_title["ui"].text:
-                if bg3_img:
-                    bg3_scaled = pygame.transform.scale(bg3_img, (screen_width, screen_height))
-                    screen.blit(bg3_scaled, (0, 0))
+            if estado_actual == "SIMULACION":
+                if current_title and "NO" in current_title["ui"].text:
+                    if bg3_sim_img:
+                        bg3_sim_scaled = pygame.transform.scale(bg3_sim_img, (screen_width, screen_height))
+                        screen.blit(bg3_sim_scaled, (0, 0))
+                else:
+                    if bg2_sim_img:
+                        bg2_sim_scaled = pygame.transform.scale(bg2_sim_img, (screen_width, screen_height))
+                        screen.blit(bg2_sim_scaled, (0, 0))
             else:
                 if bg2_img:
-                    bg2_scaled = pygame.transform.scale(bg2_img, (screen_width, screen_height))
-                    screen.blit(bg2_scaled, (0, 0))
+                        bg2_scaled = pygame.transform.scale(bg2_img, (screen_width, screen_height))
+                        screen.blit(bg2_scaled, (0, 0))
+
+
         elif estado_actual == "MENU NO INFORMADO":
             if bg3_img:
                 bg3_scaled = pygame.transform.scale(bg3_img, (screen_width, screen_height))

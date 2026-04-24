@@ -55,7 +55,7 @@ class Search_Tree:
 class UIElement(Sprite):
     """ An user interface element that can be added to a surface """
 
-    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, text_style=None, alt_text = None, alt_flag = None):
+    def __init__(self, center_position, text, font_size, bg_rgb, text_rgb, text_style=None, alt_text = None, alt_flag = None, font = None):
         """
         Args:
             center_position - tuple (x, y)
@@ -71,20 +71,20 @@ class UIElement(Sprite):
 
         # create the default image
         default_image = create_surface_with_text(
-            text=text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb, text_style=text_style
+            text=text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb, text_style=text_style, font=font
         )
 
         # create the image that shows when mouse is over the element
         highlighted_image = create_surface_with_text(
-            text=text, font_size=font_size * 1.2, text_rgb=text_rgb, bg_rgb=bg_rgb, text_style=text_style
+            text=text, font_size=font_size * 1.2, text_rgb=text_rgb, bg_rgb=bg_rgb, text_style=text_style, font=font
         )
 
         if alt_text:
             default_image_alt = create_surface_with_text(
-            text=alt_text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb, text_style=text_style
+            text=alt_text, font_size=font_size, text_rgb=text_rgb, bg_rgb=bg_rgb, text_style=text_style, font=font
             )
             highlighted_image_alt = create_surface_with_text(
-                text=alt_text, font_size=font_size * 1.2, text_rgb=text_rgb, bg_rgb=bg_rgb, text_style=text_style
+                text=alt_text, font_size=font_size * 1.2, text_rgb=text_rgb, bg_rgb=bg_rgb, text_style=text_style, font=font
             )
 
             self.alt_images = [default_image_alt, highlighted_image_alt]
