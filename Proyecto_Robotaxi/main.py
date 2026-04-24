@@ -317,7 +317,7 @@ def main():
         
     try:
         ui_icon = pygame.image.load(icon_path).convert_alpha()
-        ui_icon = pygame.transform.smoothscale(ui_icon, (110, 110))
+        ui_icon = pygame.transform.scale_by(ui_icon, 0.25)
     except Exception as e:
         print("Aviso: No se pudo cargar el icono:", e)
         ui_icon = None
@@ -338,17 +338,17 @@ def main():
     # Buttons for choosing search algorithm
     back_button = {
             "ui": UIElement((44, 24), "<-", 15, (40, 44, 52), (158, 155, 155)),
-            "funct": lambda: update_state("MENU INICIAL CON MUNDO")
+            "funct": lambda: initial_menu_with_wrld()
         }
     buttons_algs = {
         "selection": [
             {
                 "ui": UIElement((panel_center_x, 277), "BÚSQUEDA NO\nINFORMADA", 20, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
-                "funct": lambda: update_state("MENU NO INFORMADO")
+                "funct": lambda: non_informed_menu()
             },
             {
                 "ui": UIElement((panel_center_x, 399), "BÚSQUEDA\nINFORMADA", 20, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
-                "funct": lambda: update_state("MENU INFORMADO")
+                "funct": lambda: informed_menu()
             }
         ],
         "not_informed": [
@@ -416,15 +416,34 @@ def main():
         },
         {
             "ui": UIElement((685, 200), "X", 15, (40, 44, 52), (255, 60, 60), text_style="PLAIN"),
-            "funct": lambda: update_state("MENU INICIAL SIN MUNDO")
+            "funct": lambda: initial_menu_no_wrld()
         },
         {
             "ui": UIElement((600, 390), "Correr Simulación", 23, (40, 44, 52), (255, 170, 0), text_style="PLAIN"),
-            "funct": lambda: update_state("MENU SELECCION ALGORITMO")
+            "funct": lambda: alg_selection_menu()
         }
     ]
 
+    buttons_simulation = [
+        {
+            "ui": UIElement((true_center_x, 300), "A", 25, (40, 44, 52), (255, 170, 0)),
+            "funct": lambda: print("Play")
+        },
+        {
+            "ui": UIElement((true_center_x - 50, 300), "<-", 18, (40, 44, 52), (230, 245, 255)),
+            "funct": lambda: print("Rewind")
+        },
+        {
+            "ui": UIElement((true_center_x + 50, 300), "->", 15, (40, 44, 52), (255, 60, 60)),
+            "funct": lambda: print("Forward")
+        },
+    ]
+
+
+
     estado_actual = "MENU INICIAL SIN MUNDO" # Initial menu state
+    estado_simulacion = "PLAY" # Initial simulation playback settings
+    playback_speed = 50
     current_taxi_pos = [0, 0]
     path, path_index, move_timer = [], 0, 0
     datos_finales = {}
@@ -462,6 +481,11 @@ def main():
         estado_actual = "MENU INICIAL SIN MUNDO"
         button_list = buttons_initial_center
 
+    def simulation():
+        nonlocal button_list, estado_actual
+        estado_actual = "SIMULACION"
+        button_list = buttons_simulation
+
     #Auxilary functions to set button actions
 
     def update_file(new_file_path):
@@ -479,10 +503,11 @@ def main():
         map_matrix = [row[:] for row in map_matrix_original]
 
         CELL_SIZE = 360/len(map_matrix[0])
+        initial_menu_with_wrld()
 
-    def update_state(new_state):
-        nonlocal estado_actual
-        estado_actual = new_state
+    # def update_state(new_state):
+    #     nonlocal estado_actual
+    #     estado_actual = new_state
 
     while True:
         mouse_pos = pygame.mouse.get_pos()
@@ -495,20 +520,32 @@ def main():
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    estado_actual = "MENU SELECCION ALGORITMO"
+                    alg_selection_menu()
                     path_index = 0
                     move_timer = 0
                     path = []
                     map_matrix = [row[:] for row in map_matrix_original] # Restart map_matrix 
+
+                if event.key == pygame.K_LEFT:
+                    playback_speed = 500
+
+                if event.key == pygame.K_RIGHT:
+                    playback_speed = 10
+
+                if event.key == pygame.K_UP:
+                    estado_simulacion = "PLAY"
+                    playback_speed = 100
+
+                if event.key == pygame.K_r:
+                    estado_simulacion = "REWIND"
+
+                if event.key == pygame.K_p:
+                    estado_simulacion = "PAUSE"
+
+
             
             # --- DYNAMIC CLICK DETECTION ---
-            if ("INFORMADO" in estado_actual or estado_actual == "MENU SELECCION ALGORITMO") and event.type == pygame.MOUSEBUTTONDOWN:
-                if estado_actual == "MENU SELECCION ALGORITMO":
-                    button_list = buttons_algs["selection"]
-                elif estado_actual == "MENU NO INFORMADO":
-                    button_list = buttons_algs["not_informed"]
-                elif estado_actual == "MENU INFORMADO":
-                    button_list = buttons_algs["informed"]
+            if event.type == pygame.MOUSEBUTTONDOWN:
 
                 for btn in button_list:
                     if btn["ui"].rect.collidepoint(mouse_pos):
@@ -532,15 +569,10 @@ def main():
 
                 if back_button["ui"].rect.collidepoint(mouse_pos):
                     if estado_actual == "MENU SELECCION ALGORITMO":
-                        update_state("MENU INICIAL CON MUNDO")
+                        initial_menu_with_wrld()
                     else:
-                        update_state("MENU SELECCION ALGORITMO")
-
-            if "MENU INICIAL" in estado_actual and event.type == pygame.MOUSEBUTTONDOWN:
-                for btn in button_list:
-                    if btn["ui"].rect.collidepoint(mouse_pos):
-                        btn["funct"]()
-
+                        alg_selection_menu()
+                        
 
 
         # Render del Fondo principal
@@ -565,16 +597,16 @@ def main():
             screen.fill((30, 30, 30)) 
 
         # Update state visuals
-        if estado_actual == "MENU INICIAL SIN MUNDO":
-            initial_menu_no_wrld()
-        elif estado_actual == "MENU INICIAL CON MUNDO":
-            initial_menu_with_wrld()
-        elif estado_actual == "MENU SELECCION ALGORITMO":
-            alg_selection_menu()
-        elif estado_actual == "MENU NO INFORMADO":
-            non_informed_menu()
-        elif estado_actual == "MENU INFORMADO":
-            informed_menu()
+        # if estado_actual == "MENU INICIAL SIN MUNDO":
+        #     initial_menu_no_wrld()
+        # elif estado_actual == "MENU INICIAL CON MUNDO":
+        #     initial_menu_with_wrld()
+        # elif estado_actual == "MENU SELECCION ALGORITMO":
+        #     alg_selection_menu()
+        # elif estado_actual == "MENU NO INFORMADO":
+        #     non_informed_menu()
+        # elif estado_actual == "MENU INFORMADO":
+        #     informed_menu()
 
         # Drew updated visuals
         if "INFORMADO" in estado_actual or estado_actual in ["MENU SELECCION ALGORITMO", "SIMULACION"]:
@@ -617,7 +649,7 @@ def main():
         
         elif estado_actual == "SIMULACION":
             move_timer += dt
-            if path and path_index < len(path) and move_timer > 100: # Playback animation speed
+            if path and path_index < len(path) and move_timer > playback_speed and estado_simulacion == "PLAY": # Playback animation speed
                 direction = path[path_index]
                 if direction == 'Up': current_taxi_pos[0] -= 1
                 elif direction == 'Down': current_taxi_pos[0] += 1
@@ -628,6 +660,19 @@ def main():
                     map_matrix[current_taxi_pos[0]][current_taxi_pos[1]] = 0
                 
                 path_index += 1
+                move_timer = 0
+
+            if path and path_index > 0 and move_timer > playback_speed and estado_simulacion == "REWIND": # Playback animation speed
+                direction = path[path_index -1]
+                if direction == 'Up': current_taxi_pos[0] += 1
+                elif direction == 'Down': current_taxi_pos[0] -= 1
+                elif direction == 'Left': current_taxi_pos[1] += 1
+                elif direction == 'Right': current_taxi_pos[1] -= 1
+                
+                if map_matrix_original[current_taxi_pos[0]][current_taxi_pos[1]] == 4:
+                    map_matrix[current_taxi_pos[0]][current_taxi_pos[1]] = 4
+                
+                path_index -= 1
                 move_timer = 0
 
             draw_world(screen, map_matrix, current_taxi_pos, CELL_SIZE, offset_x=448, offset_y=127)
