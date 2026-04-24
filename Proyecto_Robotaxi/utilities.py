@@ -5,8 +5,11 @@ from tkinter import filedialog
 import os
 
 
-def create_surface_with_text(text, font_size, text_rgb, bg_rgb, border_color=None, text_style=None):
-    font = pygame.font.SysFont("Arial", int(font_size), bold=True)
+def create_surface_with_text(text, font_size, text_rgb, bg_rgb, border_color=None, text_style=None, font=None):
+    if font:
+        font = pygame.font.Font(font, int(font_size))
+    else:
+        font = pygame.font.SysFont("Arial", int(font_size), bold=True)
         
     lines = text.split('\n')
     text_surfs = [font.render(line, True, text_rgb) for line in lines]
@@ -213,44 +216,28 @@ def load_assets():
     base_dir = os.path.dirname(__file__)
     bg_path = os.path.join(base_dir, "assets", "background.png")
     bg2_path = os.path.join(base_dir, "assets", "background2.png")
+    bg2_sim_path = os.path.join(base_dir, "assets", "background2_simulation.png")
     bg3_path = os.path.join(base_dir, "assets", "background3.png")
+    bg3_sim_path = os.path.join(base_dir, "assets", "background3_simulation.png")
     icon_path = os.path.join(base_dir, "assets", "icon.png")
-    
-    try:
-        bg_img = pygame.image.load(bg_path).convert()
-    except Exception as e:
-        print("Aviso: No se pudo cargar el fondo:", e)
-        bg_img = None
-        
-    try:
-        bg2_img = pygame.image.load(bg2_path).convert()
-    except Exception as e:
-        print("Aviso: No se pudo cargar el fondo 2:", e)
-        bg2_img = None
+    icon_font_path = os.path.join(base_dir, "assets", "font_awesome_solid.otf")
 
     try:
-        bg3_img = pygame.image.load(bg3_path).convert()
-    except Exception as e:
-        print("Aviso: No se pudo cargar el fondo 3:", e)
-        bg3_img = None
-        
-    try:
-        ui_icon = pygame.image.load(icon_path).convert_alpha()
-        ui_icon = pygame.transform.scale_by(ui_icon, 0.25)
-    except Exception as e:
-        print("Aviso: No se pudo cargar el icono:", e)
-        ui_icon = None
-
-    try:
+        ASSETS["bg_img"] = pygame.image.load(bg_path).convert()
+        ASSETS["bg2_img"] = pygame.image.load(bg2_path).convert()
+        ASSETS["bg2_sim_img"] = pygame.image.load(bg2_sim_path).convert()
+        ASSETS["bg3_img"] = pygame.image.load(bg3_path).convert()
+        ASSETS["bg3_sim_img"] = pygame.image.load(bg3_sim_path).convert()
+        ASSETS["ui_icon"] = pygame.transform.scale_by(pygame.image.load(icon_path).convert_alpha(), 0.25)
         ASSETS['taxi'] = pygame.image.load(os.path.join(base_dir, "assets", "taxi.png")).convert_alpha()
         ASSETS['passenger'] = pygame.image.load(os.path.join(base_dir, "assets", "passenger.png")).convert_alpha()
         ASSETS['destination'] = pygame.image.load(os.path.join(base_dir, "assets", "destination_icon.png")).convert_alpha()
+        ASSETS['icon_font_path'] = icon_font_path
+        return ASSETS
     except Exception as e:
-        print("Aviso: Fallo al cargar sprites de minimapa:", e)
+        print("Aviso: Error cargando archivos:", e)
+        return {}
 
-    ASSETS["bg_img"] = bg_img
-    ASSETS["bg2_img"] = bg2_img
-    ASSETS["bg3_img"] = bg3_img
-    ASSETS["ui_icon"] = ui_icon
+        
 
-    return ASSETS
+    
