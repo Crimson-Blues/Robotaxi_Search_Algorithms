@@ -1,7 +1,6 @@
 # busquedas/a_estrella.py
 import dis
 import heapq
-from math import exp
 import time
 from modelos import Node
 from .utilidades import is_goal, expand, reconstruct_path, find_positions, manhattan_dist, read_world
