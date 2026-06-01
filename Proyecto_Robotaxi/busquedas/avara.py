@@ -83,6 +83,7 @@ def heuristic(node, destinations):
 
         # Compute distance from farthest passenger to destinations
         dist_to_dests = [(manhattan_dist(farthest_psg, d), d) for d in destinations]
+        dist_to_dests.sort()
 
         # Select the closest destination
         closest_dist_d, closest_dest = dist_to_dests[0]
@@ -92,6 +93,7 @@ def heuristic(node, destinations):
     elif destinations:
         # All passengers picked up: only need to reach the closest destination
         dist_to_dests = [(manhattan_dist(vehicle_pos, d), d) for d in destinations]
+        dist_to_dests.sort()
 
         # Select the closest destination
         closest_dist_d, closest_dest = dist_to_dests[0]

@@ -98,33 +98,31 @@ Strategy:
 Is admissible as it calculates minimal required route"""
 def heuristic(node, destinations):
     vehicle_pos, passengers = node.state
-
-    estim = 0
-
     #Determine furthest passenger from vehicle
     dist_to_psgs = [(manhattan_dist(vehicle_pos, p), p) for p in passengers]
     dist_to_psgs.sort()
     
     if dist_to_psgs and destinations:
+        #Select furthest passenger
         furthest_psg =  dist_to_psgs[-1]
-        #Distance to furthest passenger
-        estim += furthest_psg[0]
 
         # Compute distance from farthest passenger to destinations
         dist_to_dests = [(manhattan_dist(furthest_psg[1], d), d) for d in destinations]
+        dist_to_dests.sort()
 
         # Select the closest destination
         closest_dist_d, closest_dest = dist_to_dests[0]
 
-        estim += closest_dist_d
+        return furthest_psg[0] + closest_dist_d
 
     elif destinations: #In case there's no passengers left: Distance to closest destination
         dist_to_dests = [(manhattan_dist(vehicle_pos, d), d) for d in destinations]
+        dist_to_dests.sort()
         closest_dist_d, closest_dest = dist_to_dests[0]
 
-        estim += closest_dist_d
-
-    return estim
+        return closest_dist_d
+    else:
+        return 0
 
 # Estimating cost function
 """ Total cost estimation f(n):
