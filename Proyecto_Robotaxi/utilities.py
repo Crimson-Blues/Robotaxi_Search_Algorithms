@@ -221,6 +221,7 @@ def load_assets():
     bg3_sim_path = os.path.join(base_dir, "assets", "background3_simulation.png")
     icon_path = os.path.join(base_dir, "assets", "icon.png")
     icon_font_path = os.path.join(base_dir, "assets", "font_awesome_solid.otf")
+    icon_window = os.path.join(base_dir, "assets", "taxi_icon.png")
 
     try:
         ASSETS["bg_img"] = pygame.image.load(bg_path).convert()
@@ -233,6 +234,7 @@ def load_assets():
         ASSETS['passenger'] = pygame.image.load(os.path.join(base_dir, "assets", "passenger.png")).convert_alpha()
         ASSETS['destination'] = pygame.image.load(os.path.join(base_dir, "assets", "destination_icon.png")).convert_alpha()
         ASSETS['icon_font_path'] = icon_font_path
+        ASSETS['icon_window'] = pygame.transform.scale_by(pygame.image.load(icon_window).convert_alpha(), 0.25)
         return ASSETS
     except Exception as e:
         print("Aviso: Error cargando archivos:", e)

@@ -8,6 +8,8 @@ from .utilidades import is_goal, expand, reconstruct_path, find_positions, manha
 def buscar(world_matrix):
     # Find key positions on the map
     start, destinations, passengers = find_positions(world_matrix)
+    if not destinations:
+        return None, 0, 0, 0, 0.0
 
     # Initial state: vehicle start position + set of remaining passengers
     initial_state = (start, passengers)

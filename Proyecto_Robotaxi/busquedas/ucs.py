@@ -9,6 +9,8 @@ def buscar(world_matrix):
 
     # Extract initial key positions
     start, destinations, passengers = find_positions(world_matrix)
+    if not destinations:
+        return None, 0, 0, 0, 0.0
 
     # Initial state and node (root)
     initial_state = (start, passengers)

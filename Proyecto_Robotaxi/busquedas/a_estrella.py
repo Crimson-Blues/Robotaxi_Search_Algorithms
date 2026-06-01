@@ -10,6 +10,8 @@ def buscar(world_matrix):
     # Setting up of initial conditions
     # Initial key positions
     start, destinations, passengers = find_positions(world_matrix)
+    if not destinations:
+        return None, 0, 0, 0, 0.0
 
     # Initial state: start position of vehicle and position of passengers
     initial_state = (start, passengers)
@@ -58,7 +60,7 @@ def buscar(world_matrix):
         children = expand(current_node, world_matrix)
 
         #Insert children into priority queue
-        for i, child in enumerate(children):
+        for child in children:
             nid += 1
             heapq.heappush(pending_nodes, (estim_cost(child, destinations), nid, child))
 

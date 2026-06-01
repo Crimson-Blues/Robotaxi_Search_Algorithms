@@ -11,10 +11,31 @@ def read_world(file_path):
                 if text_row: 
                     int_row = [int(number) for number in text_row] 
                     world_matrix.append(int_row) 
-        return world_matrix
+        return normalize_world(world_matrix)
     except FileNotFoundError:
         print(f"Error: No se encontró el archivo en la ruta {file_path}")
         return None
+
+def normalize_world(world_matrix):
+    max_width = max(len(row) for row in world_matrix)
+    height = len(world_matrix)
+    new_matrix = []
+    
+    col_padding = max_width - height
+    for row in world_matrix:
+        # Calculate new walls needed
+        row_padding = max_width - len(row)
+        # Append the original row + the padding to new matrix
+        new_matrix.append(row + [1] * row_padding)
+     
+    for i in range(col_padding):
+        new_matrix.append([1]*max_width)
+       
+    return new_matrix
+
+
+
+
     
 def find_positions(map_matrix):
     start = None

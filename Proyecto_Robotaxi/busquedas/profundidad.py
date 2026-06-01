@@ -7,6 +7,8 @@ from .utilidades import is_goal, expand, reconstruct_path, find_positions
 def buscar(world_matrix): 
     # Initial values identical to Breadth First Search (Búsqueda preferente por amplitud)
     start, destinations, initial_passengers = find_positions(world_matrix)
+    if not destinations:
+        return None, 0, 0, 0, 0.0
     initial_state = (start, initial_passengers)
 
     root_node = Node(state=initial_state)

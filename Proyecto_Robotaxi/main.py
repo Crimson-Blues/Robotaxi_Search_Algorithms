@@ -19,6 +19,9 @@ def main():
     # Initial config
     pygame.init()
 
+    pygame.display.set_caption("Robotaxi")
+    
+
     file_path = ""
     current_algo_name = ""
 
@@ -41,7 +44,10 @@ def main():
     bg2_sim_img = ASSETS["bg2_sim_img"]
     bg3_sim_img = ASSETS["bg3_sim_img"]
     ui_icon = ASSETS["ui_icon"]
+    icon_window = ASSETS["icon_window"]
     icon_font_path = ASSETS["icon_font_path"]
+
+    pygame.display.set_icon(icon_window)
 
     panel_center_x = 250 
     true_center_x = 450

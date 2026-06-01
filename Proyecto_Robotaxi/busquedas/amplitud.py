@@ -8,6 +8,9 @@ def buscar(world_matrix):
     # Initilization of key positions (Vehicle start position, destination, passenger positions)
     start, destinations, initial_passengers = find_positions(world_matrix)
 
+    if not destinations:
+        return None, 0, 0, 0, 0.0
+
     # Creation of root node with initial state
     initial_state = (start, initial_passengers)
     root_node = Node(state=initial_state)
