@@ -41,10 +41,7 @@ pip install -r requirements.txt
 ```
 
 ### 5. Iniciar la simulación
-Finalmente, ejecuta el archivo principal:
-```bash
-python Proyecto_Robotaxi/main.py
-```
+Finalmente, ejecuta el archivo principal `main.py`
 
 ## Cómo usar
 1. Al iniciar, selecciona **"Seleccionar Mundo"** para cargar un archivo `.txt` de configuración, o usa el archivo de prueba por defecto.
