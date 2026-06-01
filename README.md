@@ -15,30 +15,40 @@ Sigue estos pasos para clonar y ejecutar el proyecto en tu máquina local de for
 
 ### 1. Clonar el repositorio
 Abre tu terminal y ejecuta: 
-git clone <https://github.com/Crimson-Blues/Robotaxi_Search_Algorithms.git>
-cd Proyecto_Robotaxi
-
+```bash
+git clone https://github.com/Crimson-Blues/Robotaxi_Search_Algorithms.git
+cd Robotaxi_Search_Algorithms
+```
 ### 2. Crear un entorno virtual
 Para evitar conflictos con otras librerías de tu sistema, crea un entorno virtual (venv):
+```bash
 python -m venv venv
+```
 
 ### 3. Activar el entorno virtual
-En Windows:
-.\venv\Scripts\activate
-En macOS y Linux:
-source venv/bin/activate
-
+* **En Windows:**
+  ```bash
+  .\venv\Scripts\activate
+  ```
+* **En macOS y Linux:**
+  ```bash
+  source venv/bin/activate
+  ```
 ### 4. Instalar las dependencias
 Con el entorno activado, instala la versión de Pygame requerida:
+```bash
 pip install -r requirements.txt
+```
 
 ### 5. Iniciar la simulación
 Finalmente, ejecuta el archivo principal:
-python main.py
+```bash
+python Proyecto_Robotaxi/main.py
+```
 
 ## Cómo usar
-**1.** Al iniciar, selecciona "Seleccionar Mundo" para cargar un archivo .txt de configuración, o usa el archivo de prueba por defecto.
-**2.** Haz clic en "Correr Simulación".
-**3.** Elige el tipo de algoritmo que deseas visualizar (Informado o No Informado).
-**4.** Selecciona el algoritmo específico.
-**5.** Observa cómo el Robotaxi encuentra el camino óptimo. Al terminar, presiona ESC para volver al menú de selección.
+1. Al iniciar, selecciona **"Seleccionar Mundo"** para cargar un archivo `.txt` de configuración, o usa el archivo de prueba por defecto.
+2. Haz clic en **"Correr Simulación"**.
+3. Elige el tipo de algoritmo que deseas visualizar (Informado o No Informado).
+4. Selecciona el algoritmo específico.
+5. Observa cómo el Robotaxi encuentra el camino óptimo. Al terminar, presiona `ESC` para volver al menú de selección.
