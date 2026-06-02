@@ -17,12 +17,16 @@ Sigue estos pasos para clonar y ejecutar el proyecto en tu máquina local de for
 Abre tu terminal y ejecuta: 
 ```bash
 git clone https://github.com/Crimson-Blues/Robotaxi_Search_Algorithms.git
-cd Robotaxi_Search_Algorithms
+cd .\Robotaxi_Search_Algorithms\
 ```
 ### 2. Crear un entorno virtual
 Para evitar conflictos con otras librerías de tu sistema, crea un entorno virtual (venv):
 ```bash
 python -m venv venv
+```
+O en algunos equipos:
+```bash
+py -m venv venv
 ```
 
 ### 3. Activar el entorno virtual
@@ -41,7 +45,16 @@ pip install -r requirements.txt
 ```
 
 ### 5. Iniciar la simulación
-Finalmente, ejecuta el archivo principal `main.py`
+Finalmente, navega hasta la carpeta de código y ejecuta el archivo principal 
+```bash
+cd .\Proyecto_Robotaxi\
+python main.py
+```
+O:
+```bash
+cd .\Proyecto_Robotaxi\
+py main.py
+```
 
 ## Cómo usar
 1. Al iniciar, selecciona **"Seleccionar Mundo"** para cargar un archivo `.txt` de configuración, o usa el archivo de prueba por defecto.
